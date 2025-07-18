@@ -174,7 +174,7 @@
 }
 
 .comment-form .form-submit .submit {
-    background: linear-gradient(to right, #0061a8, #0086c3);
+    background-color: #0073aa;
     color: #fff;
     border: none;
     padding: 12px 35px;
@@ -182,14 +182,11 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 115, 170, 0.2);
+    transition: background-color 0.3s;
 }
 
 .comment-form .form-submit .submit:hover {
-    background: linear-gradient(to right, #005a87, #0073aa);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(0, 115, 170, 0.3);
+    background-color: #005a87;
 }
 
 input[type="email"]:disabled {
