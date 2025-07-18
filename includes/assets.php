@@ -11,15 +11,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enqueue scripts and styles
 function gp_child_enqueue_assets() {
-    wp_enqueue_style('gp-pretendard-font', 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css', array(), null);
-
     $theme_version = wp_get_theme()->get('Version');
     $theme_dir = get_stylesheet_directory();
+
+    // Enqueue local fonts
+    $fonts_path = '/assets/css/components/fonts.css';
+    if (file_exists($theme_dir . $fonts_path)) {
+        wp_enqueue_style(
+            'gp-local-fonts',
+            get_stylesheet_directory_uri() . $fonts_path,
+            [],
+            filemtime($theme_dir . $fonts_path)
+        );
+    }
 
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
     wp_enqueue_style('gp-child-style',
         get_stylesheet_uri(),
-        array('generatepress-style'),
+        array('generatepress-style', 'gp-local-fonts'),
         file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
     );
 
