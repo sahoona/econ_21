@@ -30,11 +30,6 @@ function gp_layout_setup() {
     add_action( 'generate_before_entry_content', 'gp_featured_image_output', 5 );
 
     add_action( 'wp_footer', 'gp_add_footer_elements_and_scripts' );
-    add_action( 'generate_after_entry_content', function() {
-        if ( is_single() && comments_open() ) {
-            comments_template();
-        }
-    }, 25 );
 }
 add_action( 'wp', 'gp_layout_setup' );
 
