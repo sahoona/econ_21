@@ -13,68 +13,75 @@ if ( ! defined( 'ABSPATH' ) ) {
 function gp_child_enqueue_assets() {
     $theme_version = wp_get_theme()->get('Version');
     $theme_dir = get_stylesheet_directory();
-    $base_dependency = 'gp-child-style'; // Single dependency for all our custom styles
+    $is_dev_mode = defined('WP_DEBUG') && WP_DEBUG;
 
-    // Base GeneratePress Style
+    // --- Base Styles ---
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
+    wp_enqueue_style('gp-child-style', get_stylesheet_uri(), ['generatepress-style'], file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version);
 
-    // Child theme style.css (for theme information and as a base dependency)
-    wp_enqueue_style($base_dependency,
-        get_stylesheet_uri(),
-        ['generatepress-style'],
-        file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
-    );
+    // --- CSS Loading Strategy ---
+    if ($is_dev_mode) {
+        // DEVELOPMENT MODE: Load all individual CSS files for easier debugging.
+        $dev_css_files = [
+            // Core
+            'variables'   => '/assets/css/components/variables.css',
+            'fonts'       => '/assets/css/components/fonts.css',
+            'main'        => '/assets/css/main.css',
+            // Layout
+            'layout'      => '/assets/css/layout.css',
+            'c-layout'    => '/assets/css/components/layout.css',
+            'header'      => '/assets/css/components/header.css',
+            'sidebar'     => '/assets/css/components/sidebar.css',
+            'responsive'  => '/assets/css/components/responsive.css',
+            // Components
+            'dark_mode'   => '/assets/css/components/dark_mode.css',
+            'lang-switcher' => '/assets/css/components/language-switcher.css',
+            'lang-switcher-p' => '/assets/css/components/language-switcher-partial.css',
+            'back-to-top' => '/assets/css/components/back-to-top.css',
+            'ads'         => '/components/ads/ads.css',
+            // Content
+            'content'     => '/assets/css/components/content.css',
+            'post-nav'    => '/assets/css/components/post-navigation.css',
+            // Conditional
+            'toc'         => '/assets/css/components/table-of-contents.css',
+            'series'      => '/assets/css/components/series.css',
+            'comments'    => '/assets/css/components/comments.css',
+            'yarpp'       => '/yarpp-custom.css',
+        ];
 
-    // --- Bundled CSS Files ---
-    $bundles = [
-        'gp-core-bundle'        => '/assets/dist/core.bundle.css',
-        'gp-layout-bundle'      => '/assets/dist/layout.bundle.css',
-        'gp-components-bundle'  => '/assets/dist/components.bundle.css',
-        'gp-content-bundle'     => '/assets/dist/content.bundle.css',
-    ];
-
-    foreach ($bundles as $handle => $path) {
-        if (file_exists($theme_dir . $path)) {
-            wp_enqueue_style(
-                $handle,
-                get_stylesheet_directory_uri() . $path,
-                [$base_dependency], // Depend only on the main child theme stylesheet
-                filemtime($theme_dir . $path)
-            );
+        $last_handle = 'gp-child-style';
+        foreach ($dev_css_files as $handle => $path) {
+            if (file_exists($theme_dir . $path)) {
+                wp_enqueue_style('gp-dev-' . $handle, get_stylesheet_directory_uri() . $path, [$last_handle], filemtime($theme_dir . $path));
+                $last_handle = 'gp-dev-' . $handle;
+            }
         }
-    }
 
-    // Conditional Bundle (for singular pages/posts)
-    if (is_singular()) {
-        $conditional_bundle_path = '/assets/dist/conditional.bundle.css';
-        if (file_exists($theme_dir . $conditional_bundle_path)) {
-            wp_enqueue_style(
-                'gp-conditional-bundle',
-                get_stylesheet_directory_uri() . $conditional_bundle_path,
-                [$base_dependency], // Depend only on the main child theme stylesheet
-                filemtime($theme_dir . $conditional_bundle_path)
-            );
+    } else {
+        // PRODUCTION MODE: Load bundled and minified CSS files.
+        $base_dependency = 'gp-child-style';
+        $bundles = [
+            'gp-core-bundle'        => '/assets/dist/core.bundle.css',
+            'gp-layout-bundle'      => '/assets/dist/layout.bundle.css',
+            'gp-components-bundle'  => '/assets/dist/components.bundle.css',
+            'gp-content-bundle'     => '/assets/dist/content.bundle.css',
+        ];
+
+        foreach ($bundles as $handle => $path) {
+            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $path, [$base_dependency], $theme_version);
+        }
+
+        if (is_singular()) {
+            wp_enqueue_style('gp-conditional-bundle', get_stylesheet_directory_uri() . '/assets/dist/conditional.bundle.css', [$base_dependency], $theme_version);
         }
     }
 
     // --- JavaScript Files ---
-
     if (file_exists($theme_dir . '/assets/js/vendor/clamp.min.js')) {
-        wp_enqueue_script('clamp-js',
-            get_stylesheet_directory_uri() . '/assets/js/vendor/clamp.min.js',
-            [],
-            '0.5.1',
-            true
-        );
+        wp_enqueue_script('clamp-js', get_stylesheet_directory_uri() . '/assets/js/vendor/clamp.min.js', [], '0.5.1', true);
     }
-
     if (file_exists($theme_dir . '/assets/js/main.js')) {
-        wp_enqueue_script('gp-main-script',
-            get_stylesheet_directory_uri() . '/assets/js/main.js',
-            ['jquery', 'clamp-js'],
-            filemtime($theme_dir . '/assets/js/main.js'),
-            true
-        );
+        wp_enqueue_script('gp-main-script', get_stylesheet_directory_uri() . '/assets/js/main.js', ['jquery', 'clamp-js'], filemtime($theme_dir . '/assets/js/main.js'), true);
     }
 
     // --- Localized Data for JS ---
