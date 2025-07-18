@@ -54,9 +54,13 @@
     border-bottom: none;
 }
 
+.main-navigation .main-nav ul ul li a {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
 .main-navigation .main-nav ul ul li a:hover {
-    background-color: #f9f9f9;
-    color: #000;
+    background-color: #f0f0f0;
+    color: #007BFF;
 }
 
 /* 모바일 메뉴 토글 버튼 */
