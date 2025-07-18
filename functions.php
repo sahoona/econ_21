@@ -86,7 +86,7 @@ function gp_custom_comment_html( $comment, $args, $depth ) {
                             printf(
                                 '%1$s at %2$s',
                                 get_comment_date( 'F j, Y' ), // e.g., "September 1, 2023"
-                                get_comment_time( 'g:i a' )   // e.g., "3:30 pm"
+                                date_i18n( 'g:i a', get_comment_time( 'U' ) ) // e.g., "3:30 pm"
                             );
                             ?>
                         </a>
@@ -182,6 +182,10 @@ function gp_customize_comment_form( $defaults ) {
     $defaults['title_reply'] = 'Leave a Reply';
     $defaults['title_reply_to'] = 'Leave a Reply to %s';
     $defaults['cancel_reply_link'] = 'Cancel Reply';
+    $defaults['id_form'] = 'commentform';
+    $defaults['id_submit'] = 'submit';
+    $defaults['title_reply_before'] = '<h3 id="reply-title" class="comment-reply-title">';
+    $defaults['title_reply_after'] = '</h3>';
 
     return $defaults;
 }
