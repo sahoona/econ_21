@@ -63,4 +63,15 @@ document.addEventListener('DOMContentLoaded', function() {
         updateEmailFieldState();
         emailPrivacyCheckbox.addEventListener('change', updateEmailFieldState);
     }
+
+    // Smooth scroll to comment anchor
+    if (window.location.hash && window.location.hash.indexOf('#comment-') === 0) {
+        const commentId = window.location.hash;
+        const commentElement = document.querySelector(commentId);
+        if (commentElement) {
+            setTimeout(() => {
+                commentElement.scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
+    }
 });
