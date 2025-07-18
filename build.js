@@ -32,6 +32,13 @@ const bundles = {
       path.resolve(basePath, 'components/ads/ads.css')
     ],
     output: 'components.bundle.css'
+  },
+  content: {
+    files: [
+        path.resolve(basePath, 'assets/css/components/content.css'),
+        path.resolve(basePath, 'assets/css/components/post-navigation.css')
+    ],
+    output: 'content.bundle.css'
   }
 };
 
