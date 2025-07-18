@@ -56,14 +56,21 @@ function gp_add_elements_to_excerpt( $excerpt ) {
 add_filter( 'the_excerpt', 'gp_add_elements_to_excerpt' );
 
 /**
- * Inject minimal and targeted CSS to fix specific layout issues on single posts.
+ * Inject specific CSS to fine-tune single post layout.
  */
 function gp_child_inject_single_post_layout_css() {
     if ( is_singular() ) {
         $css = '
             <style>
-                /* 1. Constrain the main article container and set side padding */
-                .single .inside-article {
+                /* 1. Widen featured image and header backgrounds */
+                .single-post .entry-header,
+                .single-post .featured-image {
+                    max-width: 100% !important; /* Allow full width */
+                }
+
+                /* 2. Constrain the content within the header and main article area */
+                .single-post .entry-header .grid-container,
+                .single-post .inside-article {
                     max-width: var(--container-max-width, 840px) !important;
                     margin-left: auto !important;
                     margin-right: auto !important;
@@ -71,28 +78,43 @@ function gp_child_inject_single_post_layout_css() {
                     padding-right: 20px !important;
                 }
 
-                /* 2. Remove gray background from the featured image container */
-                .featured-image {
-                    background-color: transparent !important;
+                /* 3. Adjust featured image padding to be inside the container */
+                .single-post .featured-image {
+                    padding: 0 !important; /* Remove padding from the outer container */
                 }
+                 .single-post .featured-image .grid-container {
+                    padding-left: 20px !important;
+                    padding-right: 20px !important;
+                 }
 
-                /* 3. Adjust spacing around breadcrumbs and entry header */
-                .entry-header {
-                    margin-bottom: 20px !important; /* Space between header and breadcrumbs */
-                }
+
+                /* 4. Add top margin to breadcrumbs */
                 .gp-post-category {
-                    margin-top: 20px !important;    /* Space above breadcrumbs */
-                    margin-bottom: 20px !important; /* Space below breadcrumbs */
+                    margin-top: 20px !important;
                 }
 
-                /* 4. Make previous post link full-width when it is the only child */
-                .post-navigation .nav-links .nav-previous:only-child {
-                    width: 100% !important;
-                    text-align: center !important;
-                    justify-content: center !important;
+                /* 5. Full-width post navigation container */
+                .post-navigation .nav-links {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 0 !important;
+                    margin: 0 !important;
                 }
-                 .post-navigation .nav-links .nav-previous:only-child .nav-arrow {
-                    margin-right: 10px !important;
+                .post-navigation .nav-links .nav-previous,
+                .post-navigation .nav-links .nav-next {
+                    flex-basis: 48%;
+                }
+                .post-navigation .nav-links .nav-previous:only-child {
+                    flex-basis: 100% !important;
+                    text-align: center;
+                }
+
+                /* 6. Rounded corners for images on mobile */
+                @media (max-width: 768px) {
+                    .featured-image img,
+                    .entry-content .wp-block-image img {
+                        border-radius: 12px;
+                    }
                 }
             </style>
         ';
