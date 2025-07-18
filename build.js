@@ -22,6 +22,16 @@ const bundles = {
       path.resolve(basePath, 'assets/css/components/responsive.css')
     ],
     output: 'layout.bundle.css'
+  },
+  components: {
+    files: [
+      path.resolve(basePath, 'assets/css/components/dark_mode.css'),
+      path.resolve(basePath, 'assets/css/components/language-switcher.css'),
+      path.resolve(basePath, 'assets/css/components/language-switcher-partial.css'),
+      path.resolve(basePath, 'assets/css/components/back-to-top.css'),
+      path.resolve(basePath, 'components/ads/ads.css')
+    ],
+    output: 'components.bundle.css'
   }
 };
 

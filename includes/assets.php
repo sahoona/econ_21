@@ -43,18 +43,24 @@ function gp_child_enqueue_assets() {
         );
     }
 
+    // Enqueue components bundle
+    $components_bundle_path = '/assets/dist/components.bundle.css';
+    if (file_exists($theme_dir . $components_bundle_path)) {
+        wp_enqueue_style(
+            'gp-components-bundle',
+            get_stylesheet_directory_uri() . $components_bundle_path,
+            ['gp-layout-bundle'],
+            filemtime($theme_dir . $components_bundle_path)
+        );
+    }
+
     // Enqueue remaining individual CSS files
     $css_files = [
         'components-content' => '/assets/css/components/content.css',
-        'components-dark_mode' => '/assets/css/components/dark_mode.css',
-        'components-language-switcher-partial' => '/assets/css/components/language-switcher-partial.css',
-        'components-language-switcher' => '/assets/css/components/language-switcher.css',
         'components-post-navigation' => '/assets/css/components/post-navigation.css',
-        'ads' => '/components/ads/ads.css',
-        'back-to-top' => '/assets/css/components/back-to-top.css',
     ];
 
-    $last_style_handle = 'gp-layout-bundle';
+    $last_style_handle = 'gp-components-bundle';
 
     foreach ($css_files as $handle => $path) {
         if (file_exists($theme_dir . $path)) {
