@@ -54,12 +54,11 @@
     border-bottom: none;
 }
 
-.main-navigation .main-nav ul ul li a {
-    transition: background-color 0.3s ease, color 0.3s ease;
+.main-navigation .main-nav ul ul li a span {
+    transition: color 0.3s ease;
 }
 
-.main-navigation .main-nav ul ul li a:hover {
-    background-color: #f0f0f0;
+.main-navigation .main-nav ul ul li a:hover span {
     color: #007BFF;
 }
 
