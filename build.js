@@ -39,6 +39,15 @@ const bundles = {
         path.resolve(basePath, 'assets/css/components/post-navigation.css')
     ],
     output: 'content.bundle.css'
+  },
+  conditional: {
+    files: [
+        path.resolve(basePath, 'assets/css/components/table-of-contents.css'),
+        path.resolve(basePath, 'assets/css/components/series.css'),
+        path.resolve(basePath, 'assets/css/components/comments.css'),
+        path.resolve(basePath, 'yarpp-custom.css')
+    ],
+    output: 'conditional.bundle.css'
   }
 };
 
