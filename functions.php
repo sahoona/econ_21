@@ -86,7 +86,7 @@ function gp_custom_comment_html( $comment, $args, $depth ) {
                             printf(
                                 '%1$s at %2$s',
                                 get_comment_date( 'F j, Y' ), // e.g., "September 1, 2023"
-                                get_comment_time( 'g:i a' ) // Use this for am/pm
+                                date( 'g:i a', get_comment_time( 'U' ) ) // e.g., "3:30 pm"
                             );
                             ?>
                         </a>
