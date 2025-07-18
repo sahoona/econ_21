@@ -45,11 +45,31 @@ function gp_get_reading_time( $post_id = null ) {
     if ( ! $post_id ) {
         $post_id = get_the_ID();
     }
+
+    // Check for cached reading time
+    $cached_data = get_transient( 'gp_reading_time_' . $post_id );
+    if ( false !== $cached_data ) {
+        return $cached_data;
+    }
+
     $content = get_post_field( 'post_content', $post_id );
-    // More robust word count for multi-byte characters (like Korean)
-    $decoded_content = html_entity_decode( strip_tags( $content ) );
-    $word_count = count(preg_split('/\s+/u', $decoded_content, -1, PREG_SPLIT_NO_EMPTY));
-    $reading_time = ceil( $word_count / 225 ); // Based on includes/post-features.php
+    $word_count = gp_custom_word_count($content);
+    $reading_time = ceil( $word_count / 225 );
     $reading_time = max( 1, $reading_time );
-    return $reading_time . ' min read';
+
+    $data = array(
+        'time' => $reading_time . ' min read',
+        'words' => $word_count
+    );
+
+    // Cache the reading time for 24 hours
+    set_transient( 'gp_reading_time_' . $post_id, $data, 24 * HOUR_IN_SECONDS );
+
+    return $data;
 }
+
+// Clear the cached reading time when a post is updated
+function gp_clear_reading_time_cache( $post_id ) {
+    delete_transient( 'gp_reading_time_' . $post_id );
+}
+add_action( 'save_post', 'gp_clear_reading_time_cache' );

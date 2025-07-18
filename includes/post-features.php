@@ -197,12 +197,11 @@ function gp_meta_after_title() {
 
     $author_display_name = get_the_author_meta('display_name', $post->post_author);
     $is_updated = get_the_modified_time('U') > get_the_time('U') + DAY_IN_SECONDS;
-    $reading_time_text = gp_get_reading_time( $post->ID );
-    preg_match('/(\d+)/', $reading_time_text, $matches);
-    $reading_time = isset($matches[1]) ? $matches[1] : 1;
-    $word_count = str_word_count(strip_tags($post->post_content)); // for tooltip
+    $reading_data = gp_get_reading_time( $post->ID ); // This now returns an array
+    $reading_time = $reading_data['time'];
+    $word_count = $reading_data['words'];
 
-    echo "<!-- GP_DEBUG: Post ID {$post->ID}, Word Count: {$word_count}, Reading Time: {$reading_time} min -->";
+    echo "<!-- GP_DEBUG: Post ID {$post->ID}, Word Count: {$word_count}, Reading Time: {$reading_time} -->";
     ?>
     <div class="gp-meta-bar-after-title">
         <div class="posted-on-wrapper is-updatable" title="<?php echo $is_updated ? 'Click to see publish date' : ''; ?>">
@@ -219,7 +218,7 @@ function gp_meta_after_title() {
                 <div class="date-secondary"><span class="date-label">Published:</span><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('Y.m.d')); ?></time></div>
             <?php endif; ?>
         </div>
-        <span class="reading-time-meta" data-tooltip-text="<?php echo number_format($word_count); ?> words"><?php echo $reading_time; ?> Min</span>
+        <span class="reading-time-meta" data-tooltip-text="<?php echo number_format($word_count); ?> words"><?php echo $reading_time; ?></span>
         <span class="byline"><span class="author-label">by</span><span class="author-name-no-link"><?php echo esc_html($author_display_name); ?></span></span>
     </div>
     <?php
