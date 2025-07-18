@@ -54,12 +54,19 @@
     font-weight: 600;
     color: #333;
     font-style: normal;
+    margin-right: 10px;
 }
 
 /* Comment Metadata */
 .comment-meta {
     font-size: 13px;
     color: #888;
+    display: inline;
+}
+
+.comment-author-info {
+    display: flex;
+    align-items: center;
 }
 
 .comment-meta a {
@@ -121,9 +128,9 @@
 .comment-form input[type="url"],
 .comment-form textarea {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px 20px;
     border: 1px solid #dcdcdc;
-    border-radius: 6px;
+    border-radius: 30px; /* Pillbox style */
     background-color: #fff;
     font-size: 15px;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -154,21 +161,28 @@
     color: #555;
 }
 
+.comment-form .form-submit {
+    text-align: right;
+    margin-top: 20px;
+}
+
 .comment-form .form-submit .submit {
-    background-color: #0073aa;
+    background: linear-gradient(to right, #0061a8, #0086c3);
     color: #fff;
     border: none;
-    padding: 12px 30px;
-    border-radius: 6px;
+    padding: 12px 35px;
+    border-radius: 30px; /* Pillbox style */
     cursor: pointer;
     font-size: 16px;
     font-weight: 600;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 115, 170, 0.2);
 }
 
 .comment-form .form-submit .submit:hover {
-    background-color: #005a87;
-    transform: translateY(-2px);
+    background: linear-gradient(to right, #005a87, #0073aa);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 115, 170, 0.3);
 }
 
 input[type="email"]:disabled {

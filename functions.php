@@ -196,6 +196,37 @@ function gp_remove_anonymous_comment_filter( $id, $comment ) {
 
 function gp_limit_comment_depth( $args ) {
     $args['max_depth'] = 2;
+    $args['callback'] = 'gp_custom_comment';
     return $args;
 }
 add_filter( 'wp_list_comments_args', 'gp_limit_comment_depth' );
+
+function gp_custom_comment( $comment, $args, $depth ) {
+    ?>
+    <li <?php comment_class( empty( $args['has_children'] ) ? '' : 'parent' ) ?> id="comment-<?php comment_ID() ?>">
+        <article id="div-comment-<?php comment_ID() ?>" class="comment-body">
+            <div class="comment-author vcard">
+                <?php if ( $args['avatar_size'] != 0 ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
+                <div class="comment-author-info">
+                    <span class="fn"><?php echo get_comment_author_link(); ?></span>
+                    <span class="comment-meta commentmetadata">
+                        <a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ); ?>">
+                            <?php
+                            /* translators: 1: date, 2: time */
+                            printf( __('%1$s at %2$s'), get_comment_date(),  get_comment_time() ); ?>
+                        </a>
+                        <?php edit_comment_link( __( '(Edit)' ), '  ', '' ); ?>
+                    </span>
+                </div>
+            </div>
+
+            <div class="comment-content">
+                <?php comment_text(); ?>
+            </div>
+
+            <div class="reply">
+                <?php comment_reply_link( array_merge( $args, array( 'add_below' => 'div-comment', 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+            </div>
+        </article>
+    <?php
+}
