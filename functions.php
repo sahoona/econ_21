@@ -117,7 +117,7 @@ function gp_modify_comment_fields( $fields ) {
         '<p class="comment-form-author">%s</p>',
         sprintf(
             '<label for="author">%s%s</label> <input id="author" name="author" type="text" value="%s" size="30"%s />',
-            __( 'Name', 'gp-child-theme' ),
+            'Name',
             ( $req ? ' <span class="required">*</span>' : '' ),
             esc_attr( $commenter['comment_author'] ),
             $aria_req
@@ -128,14 +128,14 @@ function gp_modify_comment_fields( $fields ) {
         '<p class="comment-form-email">%s %s</p>',
         sprintf(
             '<label for="email">%s%s</label> <input id="email" name="email" type="email" value="%s" size="30" aria-describedby="email-notes"%s />',
-            __( 'Email', 'gp-child-theme' ),
+            'Email',
             ( $req ? ' <span class="required">*</span>' : '' ),
             esc_attr( $commenter['comment_author_email'] ),
             $aria_req
         ),
         sprintf(
             '<span class="comment-form-email-privacy"><input id="wp-comment-email-privacy" name="wp-comment-email-privacy" type="checkbox" value="true" /> <label for="wp-comment-email-privacy">%s</label></span>',
-            __( 'Do not wish to disclose.', 'gp-child-theme' )
+            'I do not wish to disclose my email address.'
         )
     );
 
@@ -143,7 +143,7 @@ function gp_modify_comment_fields( $fields ) {
         '<p class="comment-form-url">%s</p>',
         sprintf(
             '<label for="url">%s</label><input id="url" name="url" type="url" value="%s" size="30" />',
-            __( 'Website', 'gp-child-theme' ),
+            'Website',
             esc_attr( $commenter['comment_author_url'] )
         )
     );
@@ -159,8 +159,10 @@ function gp_modify_comment_fields( $fields ) {
  */
 function gp_comment_form_defaults( $defaults ) {
     $defaults['comment_notes_before'] = '<p class="comment-notes">' .
-        __( 'Your email address will not be published.', 'gp-child-theme' ) .
+        'Your email address will not be published.' .
         '</p>';
+    $defaults['label_submit'] = 'Post Comment';
+    $defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . 'Comment' . '</label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p>';
     return $defaults;
 }
 
