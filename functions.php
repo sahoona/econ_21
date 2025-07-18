@@ -75,17 +75,19 @@ function gp_clear_reading_time_cache( $post_id ) {
 add_action( 'save_post', 'gp_clear_reading_time_cache' );
 
 // Enable comments on all posts
-function gp_enable_comments( $post_id ) {
-    if ( 'post' == get_post_type( $post_id ) ) {
-        // If the post is not a revision, and comments are not already open or closed
-        if ( ! wp_is_post_revision( $post_id ) && 'inherit' == get_post_status( $post_id ) ) {
-            // Open comments
-            wp_update_post( array(
-                'ID' => $post_id,
-                'comment_status' => 'open',
-                'ping_status' => 'open'
-            ) );
-        }
+function gp_enable_comments( $post ) {
+    if ( $post instanceof WP_Post && $post->post_type == 'post' && comments_open( $post->ID ) ) {
+        // Comments are already open
+        return;
+    }
+
+    if ( $post instanceof WP_Post && $post->post_type == 'post' ) {
+        // Open comments
+        wp_update_post( array(
+            'ID' => $post->ID,
+            'comment_status' => 'open',
+            'ping_status' => 'open'
+        ) );
     }
 }
-add_action( 'wp_insert_post', 'gp_enable_comments' );
+add_action( 'the_post', 'gp_enable_comments' );
