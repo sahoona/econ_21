@@ -32,6 +32,13 @@ function gp_layout_setup() {
     add_action( 'wp_footer', 'gp_add_footer_elements_and_scripts' );
 
     add_action( 'wp_footer', 'gp_add_footer_elements_and_scripts' );
+    add_action( 'generate_after_entry_content', 'gp_display_comments', 25 );
+}
+
+function gp_display_comments() {
+    if ( is_single() && comments_open() ) {
+        comments_template();
+    }
 }
 add_action( 'wp', 'gp_layout_setup' );
 

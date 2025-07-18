@@ -1,0 +1,91 @@
+/* Comments Container */
+.comments-area {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.comments-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Comment List */
+.comment-list {
+    list-style: none;
+    padding: 0;
+}
+
+.comment-list .comment {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.comment-list .comment:last-child {
+    border-bottom: none;
+}
+
+.comment-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.comment-author .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-author .fn {
+    font-weight: bold;
+    font-style: normal;
+}
+
+.comment-meta {
+    font-size: 14px;
+    color: #888;
+}
+
+.comment-content {
+    margin-top: 10px;
+}
+
+/* Comment Form */
+.comment-respond {
+    margin-top: 40px;
+}
+
+.comment-reply-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.comment-form p {
+    margin-bottom: 15px;
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comment-form .form-submit .submit {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.comment-form .form-submit .submit:hover {
+    background-color: #005a87;
+}
