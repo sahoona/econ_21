@@ -176,6 +176,7 @@ function gp_comment_form_defaults( $defaults ) {
 function gp_handle_anonymous_comment( $commentdata ) {
     if ( isset( $_POST['wp-comment-email-privacy'] ) && $_POST['wp-comment-email-privacy'] === 'true' ) {
         $commentdata['comment_author_email'] = '';
+        add_filter('pre_option_require_name_email', '__return_false');
     }
     return $commentdata;
 }
