@@ -23,6 +23,8 @@
     font-size: 16px;
     letter-spacing: -0.02em;
     transition: color var(--default-transition-duration) var(--default-transition-timing-function), background-color var(--default-transition-duration) var(--default-transition-timing-function);
+    padding: 8px 12px; /* 기본 패딩 추가 */
+    border-radius: 15px; /* 기본 border-radius 추가 */
 }
 
 /* 드롭다운 메뉴 배경 */
@@ -69,8 +71,8 @@
 }
 
 /* New & Updated Pill-box Design */
-.main-nav .menu-item a[href*="/new/"],
-.main-nav .menu-item a[href*="/updated/"] {
+.main-navigation .main-nav > ul > li.menu-item a[href*="/new/"],
+.main-navigation .main-nav > ul > li.menu-item a[href*="/updated/"] {
     background-color: #D93025 !important;
     color: #FFFFFF !important;
     padding: 5px 12px !important;
