@@ -46,10 +46,12 @@ function gp_get_reading_time( $post_id = null ) {
         $post_id = get_the_ID();
     }
     $content = get_post_field( 'post_content', $post_id );
-    // More robust word count for multi-byte characters (like Korean)
-    $decoded_content = html_entity_decode( strip_tags( $content ) );
-    $word_count = count(preg_split('/\s+/u', $decoded_content, -1, PREG_SPLIT_NO_EMPTY));
-    $reading_time = ceil( $word_count / 225 ); // Based on includes/post-features.php
+    $word_count = gp_custom_word_count($content);
+    $reading_time = ceil( $word_count / 225 );
     $reading_time = max( 1, $reading_time );
-    return $reading_time . ' min read';
+    // Return an array with both reading time and word count
+    return array(
+        'time' => $reading_time . ' min read',
+        'words' => $word_count
+    );
 }
