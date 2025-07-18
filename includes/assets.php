@@ -13,66 +13,73 @@ if ( ! defined( 'ABSPATH' ) ) {
 function gp_child_enqueue_assets() {
     $theme_version = wp_get_theme()->get('Version');
     $theme_dir = get_stylesheet_directory();
-    $is_dev_mode = defined('WP_DEBUG') && WP_DEBUG;
 
-    // --- Base Styles ---
+    // Base GeneratePress Style
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
+
+    // Child theme style.css
     wp_enqueue_style('gp-child-style', get_stylesheet_uri(), ['generatepress-style'], file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version);
 
-    // --- CSS Loading Strategy ---
-    if ($is_dev_mode) {
-        // DEVELOPMENT MODE: Load all individual CSS files for easier debugging.
-        $dev_css_files = [
-            // Core
-            'variables'   => '/assets/css/components/variables.css',
-            'fonts'       => '/assets/css/components/fonts.css',
-            'main'        => '/assets/css/main.css',
-            // Layout
-            'layout'      => '/assets/css/layout.css',
-            'c-layout'    => '/assets/css/components/layout.css',
-            'header'      => '/assets/css/components/header.css',
-            'sidebar'     => '/assets/css/components/sidebar.css',
-            'responsive'  => '/assets/css/components/responsive.css',
-            // Components
-            'dark_mode'   => '/assets/css/components/dark_mode.css',
-            'lang-switcher' => '/assets/css/components/language-switcher.css',
-            'lang-switcher-p' => '/assets/css/components/language-switcher-partial.css',
-            'back-to-top' => '/assets/css/components/back-to-top.css',
-            'ads'         => '/components/ads/ads.css',
-            // Content
-            'content'     => '/assets/css/components/content.css',
-            'post-nav'    => '/assets/css/components/post-navigation.css',
-            // Conditional
-            'toc'         => '/assets/css/components/table-of-contents.css',
-            'series'      => '/assets/css/components/series.css',
-            'comments'    => '/assets/css/components/comments.css',
-            'yarpp'       => '/yarpp-custom.css',
-        ];
+    // --- Load all CSS files individually ---
+    $css_files = [
+        // Core
+        'variables'   => '/assets/css/components/variables.css',
+        'fonts'       => '/assets/css/components/fonts.css',
+        'main'        => '/assets/css/main.css',
+        // Layout
+        'layout'      => '/assets/css/layout.css',
+        'c-layout'    => '/assets/css/components/layout.css',
+        'header'      => '/assets/css/components/header.css',
+        'sidebar'     => '/assets/css/components/sidebar.css',
+        'responsive'  => '/assets/css/components/responsive.css',
+        // Components
+        'dark_mode'   => '/assets/css/components/dark_mode.css',
+        'lang-switcher' => '/assets/css/components/language-switcher.css',
+        'lang-switcher-p' => '/assets/css/components/language-switcher-partial.css',
+        'back-to-top' => '/assets/css/components/back-to-top.css',
+        'ads'         => '/components/ads/ads.css',
+        // Content
+        'content'     => '/assets/css/components/content.css',
+        'post-nav'    => '/assets/css/components/post-navigation.css',
+    ];
 
-        $last_handle = 'gp-child-style';
-        foreach ($dev_css_files as $handle => $path) {
-            if (file_exists($theme_dir . $path)) {
-                wp_enqueue_style('gp-dev-' . $handle, get_stylesheet_directory_uri() . $path, [$last_handle], filemtime($theme_dir . $path));
-                $last_handle = 'gp-dev-' . $handle;
-            }
+    $last_handle = 'gp-child-style';
+    foreach ($css_files as $handle => $path) {
+        if (file_exists($theme_dir . $path)) {
+            $file_handle = 'gp-' . $handle . '-style';
+            wp_enqueue_style($file_handle, get_stylesheet_directory_uri() . $path, [$last_handle], filemtime($theme_dir . $path));
+            $last_handle = $file_handle;
+        }
+    }
+
+    // --- Conditionally Enqueued CSS ---
+    // TOC CSS
+    if (is_singular('post')) {
+        $toc_path = '/assets/css/components/table-of-contents.css';
+        if (file_exists($theme_dir . $toc_path)) {
+            wp_enqueue_style('gp-toc-style', get_stylesheet_directory_uri() . $toc_path, [$last_handle], filemtime($theme_dir . $toc_path));
+        }
+    }
+
+    // Series & YARPP CSS
+    if (is_singular('post') || is_singular('series') || is_tax('series_category')) {
+        $series_path = '/assets/css/components/series.css';
+        if (file_exists($theme_dir . $series_path)) {
+            wp_enqueue_style('gp-series-style', get_stylesheet_directory_uri() . $series_path, [$last_handle], filemtime($theme_dir . $series_path));
+            $last_handle = 'gp-series-style';
         }
 
-    } else {
-        // PRODUCTION MODE: Load bundled and minified CSS files.
-        $base_dependency = 'gp-child-style';
-        $bundles = [
-            'gp-core-bundle'        => '/assets/dist/core.bundle.css',
-            'gp-layout-bundle'      => '/assets/dist/layout.bundle.css',
-            'gp-components-bundle'  => '/assets/dist/components.bundle.css',
-            'gp-content-bundle'     => '/assets/dist/content.bundle.css',
-        ];
-
-        foreach ($bundles as $handle => $path) {
-            wp_enqueue_style($handle, get_stylesheet_directory_uri() . $path, [$base_dependency], $theme_version);
+        $yarpp_custom_css_path = '/yarpp-custom.css';
+        if (file_exists($theme_dir . $yarpp_custom_css_path)) {
+            wp_enqueue_style('gp-yarpp-custom-style', get_stylesheet_directory_uri() . $yarpp_custom_css_path, [$last_handle], filemtime($theme_dir . $yarpp_custom_css_path));
         }
+    }
 
-        if (is_singular()) {
-            wp_enqueue_style('gp-conditional-bundle', get_stylesheet_directory_uri() . '/assets/dist/conditional.bundle.css', [$base_dependency], $theme_version);
+    // Comments CSS
+    if (is_singular() && comments_open()) {
+        $comments_path = '/assets/css/components/comments.css';
+        if (file_exists($theme_dir . $comments_path)) {
+            wp_enqueue_style('gp-comments-style', get_stylesheet_directory_uri() . $comments_path, [$last_handle], filemtime($theme_dir . $comments_path));
         }
     }
 
