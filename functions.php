@@ -175,8 +175,19 @@ function gp_comment_form_defaults( $defaults ) {
  */
 function gp_handle_anonymous_comment( $commentdata ) {
     if ( isset( $_POST['wp-comment-email-privacy'] ) && $_POST['wp-comment-email-privacy'] === 'true' ) {
+        // Temporarily disable the email requirement for this specific comment
+        add_filter( 'pre_option_require_name_email', '__return_false', 9999 );
         $commentdata['comment_author_email'] = '';
-        add_filter('pre_option_require_name_email', '__return_false');
+        // IMPORTANT: You might need to remove this filter later depending on your needs.
+        // For example, using remove_filter after wp_insert_comment.
     }
     return $commentdata;
+}
+
+add_action( 'wp_insert_comment', 'gp_remove_anonymous_comment_filter', 9999, 2 );
+
+function gp_remove_anonymous_comment_filter( $id, $comment ) {
+    if ( isset( $_POST['wp-comment-email-privacy'] ) && $_POST['wp-comment-email-privacy'] === 'true' ) {
+        remove_filter( 'pre_option_require_name_email', '__return_false', 9999 );
+    }
 }
