@@ -23,6 +23,24 @@ function gp_optimize_wordpress() {
 }
 add_action('init', 'gp_optimize_wordpress');
 
+/**
+ * Disable Heartbeat API for non-admin users to reduce server load.
+ */
+function gp_child_optimize_heartbeat_api($settings) {
+    if (!current_user_can('manage_options')) {
+        $settings['autostart'] = false;
+    }
+    return $settings;
+}
+add_filter('heartbeat_settings', 'gp_child_optimize_heartbeat_api');
+
+function gp_child_dequeue_heartbeat_script() {
+    if (!current_user_can('manage_options')) {
+        wp_dequeue_script('heartbeat');
+    }
+}
+add_action('wp_enqueue_scripts', 'gp_child_dequeue_heartbeat_script', 100);
+
 // Disable XML-RPC
 add_filter('xmlrpc_enabled', '__return_false');
 
