@@ -14,26 +14,26 @@ function gp_child_enqueue_assets() {
     $theme_version = wp_get_theme()->get('Version');
     $theme_dir = get_stylesheet_directory();
 
-    // Enqueue local fonts
-    $fonts_path = '/assets/css/components/fonts.css';
-    if (file_exists($theme_dir . $fonts_path)) {
+    // Enqueue bundled core CSS
+    $core_bundle_path = '/assets/dist/core.bundle.css';
+    if (file_exists($theme_dir . $core_bundle_path)) {
         wp_enqueue_style(
-            'gp-local-fonts',
-            get_stylesheet_directory_uri() . $fonts_path,
+            'gp-core-bundle',
+            get_stylesheet_directory_uri() . $core_bundle_path,
             [],
-            filemtime($theme_dir . $fonts_path)
+            filemtime($theme_dir . $core_bundle_path)
         );
     }
 
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
     wp_enqueue_style('gp-child-style',
         get_stylesheet_uri(),
-        array('generatepress-style', 'gp-local-fonts'),
+        array('generatepress-style', 'gp-core-bundle'),
         file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
     );
 
+    // Enqueue remaining individual CSS files
     $css_files = [
-        'main' => '/assets/css/main.css',
         'layout' => '/assets/css/layout.css',
         'components-content' => '/assets/css/components/content.css',
         'components-dark_mode' => '/assets/css/components/dark_mode.css',
@@ -43,7 +43,6 @@ function gp_child_enqueue_assets() {
         'components-layout' => '/assets/css/components/layout.css',
         'components-post-navigation' => '/assets/css/components/post-navigation.css',
         'components-responsive' => '/assets/css/components/responsive.css',
-        'components-variables' => '/assets/css/components/variables.css',
         'sidebar' => '/assets/css/components/sidebar.css',
         'ads' => '/components/ads/ads.css',
         'back-to-top' => '/assets/css/components/back-to-top.css',

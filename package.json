@@ -1,0 +1,12 @@
+{
+  "name": "gp-child-theme-builder",
+  "version": "1.0.0",
+  "description": "A simple Node.js script to bundle CSS.",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {}
+}
