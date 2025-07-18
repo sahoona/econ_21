@@ -54,12 +54,13 @@
     border-bottom: none;
 }
 
-.main-navigation .main-nav ul ul li a span {
+.main-navigation .main-nav ul ul li a {
     transition: color 0.3s ease;
 }
 
-.main-navigation .main-nav ul ul li a:hover span {
-    color: #007BFF;
+.main-navigation .main-nav ul ul li a:hover {
+    color: #007BFF !important;
+    background-color: transparent !important;
 }
 
 /* 모바일 메뉴 토글 버튼 */
