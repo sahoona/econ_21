@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Enqueue scripts and styles
 function gp_child_enqueue_assets() {
+    // Enqueue Google Fonts
+    wp_enqueue_style('gp-google-fonts', 'https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap', array(), null);
+
     wp_enqueue_style('gp-pretendard-font', 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css', array(), null);
 
     $theme_version = wp_get_theme()->get('Version');
