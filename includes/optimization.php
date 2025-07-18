@@ -153,6 +153,19 @@ function gp_remove_html_comments_callback($buffer) {
     return preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
 }
 
+/**
+ * Control Heartbeat API
+ *
+ * Disables the Heartbeat API on the frontend to reduce server load.
+ */
+function gp_control_heartbeat_api( $settings ) {
+    if ( ! is_admin() ) {
+        $settings['autostart'] = false;
+    }
+    return $settings;
+}
+add_filter( 'heartbeat_settings', 'gp_control_heartbeat_api' );
+
 /*
 function gp_remove_html_comments_buffer_end() {
     if ( !is_admin() && ob_get_length() > 0 ) {
