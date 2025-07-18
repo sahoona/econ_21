@@ -20,7 +20,7 @@ function gp_render_top_meta_bar() {
 }
 
 function gp_add_copy_url_button() {
-    echo '<button class="gp-copy-url-btn" data-post-id="' . get_the_ID() . '" title="' . esc_attr(get_the_title()) . ' 글 주소 복사하기" aria-label="현재 글의 URL을 클립보드에 복사" type="button"><span class="sr-only">URL 복사</span></button>';
+    echo '<button class="gp-copy-url-btn" data-post-id="' . get_the_ID() . '" title="' . esc_attr(get_the_title()) . ' ' . __('Copy URL', 'gp-child-theme') . '" aria-label="' . __('Copy the URL of the current post to the clipboard', 'gp-child-theme') . '" type="button"><span class="sr-only">' . __('Copy URL', 'gp-child-theme') . '</span></button>';
 }
 
 function gp_breadcrumb_output() {
@@ -275,8 +275,8 @@ function gp_star_rating_output(){
     ?>
     <div class="gp-star-rating-container" data-post-id="<?php echo $post_id; ?>">
         <p class="section-label">Rate this post</p>
-        <div class="stars-wrapper" aria-label="별점 <?php echo $average_rating; ?>점 (5점 만점)">
-            <div class="stars-background" aria-hidden="true"><?php for($i = 1; $i <= 5; $i++) echo '<div class="star" data-rating="'.$i.'" role="button" tabindex="0" aria-label="'.$i.'점"></div>'; ?></div>
+        <div class="stars-wrapper" aria-label="<?php printf( __( 'Rating: %s out of 5 stars', 'gp-child-theme' ), $average_rating ); ?>">
+            <div class="stars-background" aria-hidden="true"><?php for($i = 1; $i <= 5; $i++) echo '<div class="star" data-rating="'.$i.'" role="button" tabindex="0" aria-label="'.sprintf(__('%d star','gp-child-theme'),$i).'"></div>'; ?></div>
             <div class="stars-foreground" style="width: <?php echo $average_rating / 5 * 100; ?>%;" aria-hidden="true"><?php for($i = 1; $i <= 5; $i++) echo '<div class="star"></div>'; ?></div>
         </div>
         <div class="rating-text" title="<?php printf('%d votes', $vote_count); ?>" data-initial-average="<?php echo number_format($average_rating, 1); ?>">
@@ -285,8 +285,8 @@ function gp_star_rating_output(){
         <?php if ($vote_count > 20): ?><div class="vote-count-display"><?php echo $vote_count; ?> votes</div><?php endif; ?>
         <div class="user-rating-text" aria-live="polite"></div>
         <div class="rating-buttons-container">
-            <button class="edit-rating-btn rating-action-btn" aria-label="별점 수정">Edit</button>
-            <button class="submit-rating-btn rating-action-btn" aria-label="별점 제출">Submit</button>
+            <button class="edit-rating-btn rating-action-btn" aria-label="<?php _e( 'Edit rating', 'gp-child-theme' ); ?>">Edit</button>
+            <button class="submit-rating-btn rating-action-btn" aria-label="<?php _e( 'Submit rating', 'gp-child-theme' ); ?>">Submit</button>
         </div>
     </div>
     <?php
