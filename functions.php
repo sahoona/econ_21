@@ -91,3 +91,23 @@ function gp_enable_comments( $post ) {
     }
 }
 add_action( 'the_post', 'gp_enable_comments' );
+
+// Modify the comment form fields
+function gp_modify_comment_form_fields( $fields ) {
+    $commenter = wp_get_current_commenter();
+    $req = get_option( 'require_name_email' );
+
+    // Unset the email and url fields
+    unset( $fields['email'] );
+    unset( $fields['url'] );
+
+    // Add a name field
+    $fields['author'] = '<p class="comment-form-author">' .
+        '<label for="author">' . __( 'Name', 'gp_child_theme' ) . '</label> ' .
+        ( $req ? '<span class="required">*</span>' : '' ) .
+        '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
+        '" size="30" /></p>';
+
+    return $fields;
+}
+add_filter( 'comment_form_default_fields', 'gp_modify_comment_form_fields' );
