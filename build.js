@@ -3,38 +3,63 @@ const path = require('path');
 
 // Define absolute paths
 const basePath = __dirname;
-const coreFiles = [
-  path.resolve(basePath, 'assets/css/components/variables.css'),
-  path.resolve(basePath, 'assets/css/components/fonts.css'),
-  path.resolve(basePath, 'assets/css/main.css')
-];
+
+const bundles = {
+  core: {
+    files: [
+      path.resolve(basePath, 'assets/css/components/variables.css'),
+      path.resolve(basePath, 'assets/css/components/fonts.css'),
+      path.resolve(basePath, 'assets/css/main.css')
+    ],
+    output: 'core.bundle.css'
+  },
+  layout: {
+    files: [
+      path.resolve(basePath, 'assets/css/layout.css'),
+      path.resolve(basePath, 'assets/css/components/layout.css'),
+      path.resolve(basePath, 'assets/css/components/header.css'),
+      path.resolve(basePath, 'assets/css/components/sidebar.css'),
+      path.resolve(basePath, 'assets/css/components/responsive.css')
+    ],
+    output: 'layout.bundle.css'
+  }
+};
+
 const destDir = path.resolve(basePath, 'assets/dist');
-const destFile = path.join(destDir, 'core.bundle.css');
 
 // Ensure destination directory exists
 if (!fs.existsSync(destDir)) {
   fs.mkdirSync(destDir, { recursive: true });
 }
 
-// Function to build the core CSS bundle
-function buildCoreCss() {
+// Generic function to build a CSS bundle
+function buildCssBundle(bundleName, bundleConfig) {
   try {
-    // Concatenate files using native fs module
-    const concatenatedCss = coreFiles.map(file => {
+    const concatenatedCss = bundleConfig.files.map(file => {
       if (fs.existsSync(file)) {
         return fs.readFileSync(file, 'utf8');
       }
-      throw new Error(`File not found: ${file}`);
+      // If a file doesn't exist, just return an empty string and log a warning.
+      console.warn(`Warning: File not found, skipping: ${file}`);
+      return '';
     }).join('\n');
 
-    // Write the final file
+    const destFile = path.join(destDir, bundleConfig.output);
     fs.writeFileSync(destFile, concatenatedCss);
     console.log(`Successfully created ${destFile} (concatenated only).`);
-
   } catch (error) {
-    console.error('Error during build process:', error);
+    console.error(`Error building ${bundleName} bundle:`, error);
   }
 }
 
-// Run the build process
-buildCoreCss();
+// Run the build process for all defined bundles
+function runAllBuilds() {
+  console.log('Starting build process...');
+  for (const bundleName in bundles) {
+    buildCssBundle(bundleName, bundles[bundleName]);
+  }
+  console.log('Build process finished.');
+}
+
+// Execute the builds
+runAllBuilds();
