@@ -47,58 +47,6 @@ function gp_child_enqueue_assets() {
         );
     }
 
-    // Conditionally enqueue TOC CSS
-    if (is_singular('post')) {
-        $toc_path = '/assets/css/components/table-of-contents.css';
-        if (file_exists($theme_dir . $toc_path)) {
-            wp_enqueue_style(
-                'gp-toc-style',
-                get_stylesheet_directory_uri() . $toc_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $toc_path)
-            );
-            $last_style_handle = 'gp-toc-style';
-        }
-    }
-
-    // Conditionally enqueue Series CSS
-    if (is_singular('post') || is_singular('series') || is_tax('series_category')) {
-        $series_path = '/assets/css/components/series.css';
-        if (file_exists($theme_dir . $series_path)) {
-            wp_enqueue_style(
-                'gp-series-style',
-                get_stylesheet_directory_uri() . $series_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $series_path)
-            );
-        }
-    }
-
-    // Conditionally enqueue Comments CSS
-    if (is_singular() && comments_open()) {
-        $comments_path = '/assets/css/components/comments.css';
-        if (file_exists($theme_dir . $comments_path)) {
-            wp_enqueue_style(
-                'gp-comments-style',
-                get_stylesheet_directory_uri() . $comments_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $comments_path)
-            );
-        }
-    }
-
-    // Enqueue YARPP custom CSS
-    if (is_singular()) {
-        $yarpp_custom_css_path = '/yarpp-custom.css';
-        if (file_exists($theme_dir . $yarpp_custom_css_path)) {
-            wp_enqueue_style(
-                'gp-yarpp-custom-style',
-                get_stylesheet_directory_uri() . $yarpp_custom_css_path,
-                ['gp-series-style'],
-                filemtime($theme_dir . $yarpp_custom_css_path)
-            );
-        }
-    }
 
 
 
