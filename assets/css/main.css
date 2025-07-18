@@ -110,24 +110,19 @@ Template: generatepress
     font-weight: normal !important;
 }
 
-.gp-copy-url-btn.copied,
-.social-share-btn.copy-link-icon-bottom.copied,
-.social-share-btn.copy-link-icon-bottom.copied-feedback {
+.gp-copy-url-btn.copied, .social-share-btn.copy-link-icon-bottom.copied, .social-share-btn.copy-link-icon-bottom.copied-feedback {
     background-color: #40c057 !important;
     color: var(--white-color) !important;
     border-color: #40c057 !important;
-    animation: copySuccess 0.6s ease-in-out !important;
+    animation: copySuccess .6s ease-in-out !important
 }
 
-.gp-copy-url-btn.copied::before,
-.social-share-btn.copy-link-icon-bottom.copied::before,
-.social-share-btn.copy-link-icon-bottom.copied-feedback::before {
+.gp-copy-url-btn.copied::before, .social-share-btn.copy-link-icon-bottom.copied::before, .social-share-btn.copy-link-icon-bottom.copied-feedback::before {
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
 }
 
-.gp-copy-url-btn::before,
-.social-share-btn.copy-link-icon-bottom::before {
+.gp-copy-url-btn::before, .social-share-btn.copy-link-icon-bottom::before {
     content: '';
     display: block;
     width: 22px;
@@ -140,15 +135,14 @@ Template: generatepress
     -webkit-mask-position: center;
     mask-position: center;
     -webkit-mask-size: contain;
-    mask-size: contain;
+    mask-size: contain
 }
 
-.gp-copy-url-btn:hover,
-.social-share-btn.copy-link-icon-bottom:hover {
+.gp-copy-url-btn:hover, .social-share-btn.copy-link-icon-bottom:hover {
     transform: translateY(-2px);
     color: var(--text-primary);
     border-color: var(--border-meta);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08)
 }
 
 .social-share-btn.u-btn {
