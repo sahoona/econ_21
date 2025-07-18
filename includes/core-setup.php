@@ -9,6 +9,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+// Limit post revisions to 3
+if ( ! defined( 'WP_POST_REVISIONS' ) ) {
+    define( 'WP_POST_REVISIONS', 3 );
+}
+
 // Theme setup
 function gp_child_theme_setup() {
     add_theme_support('post-thumbnails');
