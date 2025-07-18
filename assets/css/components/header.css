@@ -12,13 +12,51 @@
 }
 
 /* 메인 네비게이션 */
-.main-navigation, .main-navigation .main-nav ul li a {
+.main-navigation .main-nav > ul > li {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.main-navigation .main-nav ul li a {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.02em;
     transition: color var(--default-transition-duration) var(--default-transition-timing-function), background-color var(--default-transition-duration) var(--default-transition-timing-function);
 }
 
 /* 드롭다운 메뉴 배경 */
 .main-navigation .main-nav ul ul {
-    transition: background-color var(--default-transition-duration) var(--default-transition-timing-function), border-color var(--default-transition-duration) var(--default-transition-timing-function);
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 5px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+}
+
+.main-navigation .main-nav ul li:hover > ul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.main-navigation .main-nav ul ul li a {
+    color: #333;
+    padding: 12px 20px;
+    font-size: 15px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+.main-navigation .main-nav ul ul li:last-child a {
+    border-bottom: none;
+}
+
+.main-navigation .main-nav ul ul li a:hover {
+    background-color: #f9f9f9;
+    color: #000;
 }
 
 /* 모바일 메뉴 토글 버튼 */
