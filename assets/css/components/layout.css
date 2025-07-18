@@ -52,13 +52,13 @@ a:focus {
    레이아웃 최종 수정안 (가장 확실한 방법)
    ========================================================================== */
 
-/* 1. 최상위 콘텐츠 컨테이너(.site-content)의 너비를 940px로 고정하고 중앙 정렬합니다.
+/* 1. 최상위 콘텐츠 컨테이너(.site-content)의 너비를 1200px로 고정하고 중앙 정렬합니다.
       이것이 모든 너비의 기준이 됩니다. */
 .site-content {
-    max-width: 940px !important;
+    max-width: 1200px !important;
     width: 100% !important;
     margin: 25px auto 0 auto !important; /* 위쪽 여백, 아래쪽 여백 0 */
-    padding: 0 !important; /* 내부 패딩은 각 요소에서 제어하므로 0으로 리셋 */
+    padding: 0 20px !important; /* 내부 패딩은 각 요소에서 제어하므로 0으로 리셋 */
     box-sizing: border-box !important;
 }
 

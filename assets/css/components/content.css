@@ -29,7 +29,7 @@ body.single article.post { /* body.single-post 에서 body.single 로 변경하�
     background-color: var(--bg-secondary);
     border: 1px solid var(--border-primary) !important; /* 경계선 보이도록 !important 추가 */
     border-radius: 20px;
-    /* padding: 30px 40px !important; */ /* 넓어진 패딩 제거 */
+    padding: 30px 40px !important; /* 넓어진 패딩 제거 */
     box-sizing: border-box;
     width: 100%;
     margin-top: 2em; /* 상단 여백 추가 */
@@ -323,6 +323,12 @@ body.single .gp-top-meta-bar .gp-post-category, /* Targets the breadcrumb contai
     flex-wrap: wrap !important;
     gap: 5px !important;
     flex-direction: row !important;
+}
+
+body.single .gp-top-meta-bar .left-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .entry-title {
