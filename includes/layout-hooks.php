@@ -15,6 +15,7 @@ function gp_layout_setup() {
     remove_action( 'generate_after_entry_header', 'generate_post_meta' );
     remove_action( 'generate_after_entry_header', 'generate_post_image' );
     add_filter( 'generate_show_post_navigation', '__return_false' );
+    remove_action( 'generate_after_entry_content', 'generate_do_comments_template', 15 );
 
     add_action( 'generate_before_entry_title', 'gp_breadcrumb_output', 5 );
     add_action( 'generate_after_entry_title', 'gp_meta_after_title', 10 );
