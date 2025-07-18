@@ -97,8 +97,10 @@
     transition: all 0.2s ease !important;
     padding: 0 !important;
     box-sizing: border-box !important;
-    position: relative;
+    position: absolute;
     font-weight: normal !important;
+    top: 0;
+    left: 0;
 }
 
 .gp-copy-url-btn.copied,

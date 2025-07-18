@@ -18,7 +18,6 @@ function gp_layout_setup() {
 
     add_action( 'generate_before_entry_title', 'gp_breadcrumb_output', 5 );
     add_action( 'generate_after_entry_title', 'gp_meta_after_title', 10 );
-    add_action( 'generate_before_navigation', 'gp_add_share_button_and_language_switcher', 15 );
     add_action( 'generate_after_entry_header', 'gp_featured_image_output', 15 );
     add_action( 'generate_after_entry_header', 'gp_insert_toc', 20 );
 
@@ -123,25 +122,3 @@ function gp_child_inject_single_post_layout_css() {
     }
 }
 add_action('wp_head', 'gp_child_inject_single_post_layout_css', 999);
-
-function gp_add_share_button_and_language_switcher() {
-    ?>
-    <div class="left-buttons">
-        <button class="share-button">공유</button>
-        <?php
-        if ( function_exists( 'pll_the_languages' ) ) {
-            echo '<div class="gp-language-switcher">';
-            echo '<button id="gp-lang-switcher-button" aria-haspopup="true" aria-expanded="false" class="gp-language-button">';
-            echo esc_html( pll_current_language( 'slug' ) );
-            echo '<span class="dropdown-icon"></span>';
-            echo '</button>';
-            echo '<ul id="gp-lang-switcher-list" class="language-list" hidden>';
-            // Temporarily remove the walker to fix the layout
-            pll_the_languages( array( 'show_flags' => 0, 'show_names' => 1, 'hide_if_no_translation' => 1, 'echo' => 1, 'display_names_as' => 'name' ) );
-            echo '</ul>';
-            echo '</div>';
-        }
-        ?>
-    </div>
-    <?php
-}

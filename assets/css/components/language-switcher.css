@@ -151,7 +151,6 @@ li.pll-parent-menu-item ul.sub-menu li.current-lang a::after {
     display: inline-block;
     /* margin-left: auto; /* Removed, rely on grid placement in .gp-top-meta-bar */
     align-self: center; /* Vertically center if in a flex container */
-    margin-left: 10px; /* Add some space between it and the share button */
 }
 
 button#gp-lang-switcher-button, /* Specific ID for the button */

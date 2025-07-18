@@ -18,7 +18,7 @@ body:not(.single-post) article.post {
     padding: 0 !important; /* 카드 자체 패딩 제거 */
     box-sizing: border-box;
     width: 100%;
-    max-width: 800px !important; /* 카드 최대 너비 800px으로 수정 */
+    max-width: 100% !important; /* 카드 최대 너비 100%으로 수정 */
     margin: 0 auto 35px auto !important; /* 기존 간격 유지 및 중앙 정렬 */
     overflow: hidden !important; /* 둥근 모서리 유지를 위해 hidden으로 복원 */
     transition: background-color var(--default-transition-duration) var(--default-transition-timing-function), border-color var(--default-transition-duration) var(--default-transition-timing-function), transform var(--default-transition-duration) var(--default-transition-timing-function);
@@ -77,11 +77,6 @@ body:not(.single) article.post .inside-article {
 img {
     height: auto; /* Prevent layout shifts */
     max-width: 100%;
-}
-
-.entry-content img, .entry-summary img {
-    margin-left: 15px;
-    margin-right: 15px;
 }
 
 /* Lazy loading support */
