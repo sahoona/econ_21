@@ -69,8 +69,8 @@
 }
 
 /* New & Updated Pill-box Design */
-.main-nav .menu-item a[href*="/new"],
-.main-nav .menu-item a[href*="/updated"] {
+.main-nav .menu-item a[href*="/new/"],
+.main-nav .menu-item a[href*="/updated/"] {
     color: #fff !important;
     background-color: #E53E3E; /* Red-500 */
     padding: 6px 12px;
@@ -81,8 +81,8 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.main-nav .menu-item a[href*="/new"]:hover,
-.main-nav .menu-item a[href*="/updated"]:hover {
+.main-nav .menu-item a[href*="/new/"]:hover,
+.main-nav .menu-item a[href*="/updated/"]:hover {
     background-color: #C53030; /* Red-600 */
 }
 
