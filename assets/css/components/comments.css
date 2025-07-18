@@ -1,86 +1,140 @@
-/* Comments Container */
+/* Comments Area */
 .comments-area {
-    margin-top: 40px;
-    padding: 20px;
-    border-top: 1px solid #e0e0e0;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid #e5e5e5;
 }
 
 .comments-title, .comment-reply-title {
-    font-size: 22px;
-    margin-bottom: 25px;
-    font-weight: 600;
-    color: #333;
-    border-bottom: 2px solid #0073aa;
-    padding-bottom: 10px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 30px;
 }
 
 /* Comment List */
 .comment-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-.comment-list .comment {
-    margin-bottom: 20px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fff;
+.comment {
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
-.comment-list .comment:last-child {
-    border-bottom: 1px solid #ddd;
+.comment:last-child {
+    border-bottom: none;
 }
 
+.comment .children {
+    list-style: none;
+    padding-left: 30px;
+    margin-top: 20px;
+}
+
+/* Comment Author */
 .comment-author {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
 .comment-author .avatar {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 15px;
 }
 
 .comment-author .fn {
-    font-weight: bold;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
     font-style: normal;
-    color: #005a87;
+    margin-right: 10px;
 }
 
+/* Comment Metadata */
 .comment-meta {
-    font-size: 13px;
-    color: #777;
+    font-size: 11px;
+    color: #888;
+    display: inline;
+    font-weight: 300;
 }
 
+.comment-author-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.comment-author .fn a {
+    color: #000;
+    text-decoration: none;
+}
+
+.comment-meta a {
+    color: #888;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.comment-meta a:hover {
+    color: #0073aa;
+}
+
+/* Comment Content */
 .comment-content {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #444;
+}
+
+/* Reply Link */
+.reply {
     margin-top: 10px;
-    line-height: 1.6;
+}
+
+.comment-reply-link {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.comment-reply-link:hover {
+    background-color: #005a87;
+    color: #fff;
 }
 
 /* Comment Form */
 .comment-respond {
-    margin-top: 30px;
-    background-color: #fff;
-    padding: 20px;
+    margin-top: 40px;
+    padding: 30px;
+    background-color: #f5f7f9;
     border-radius: 8px;
-    border: 1px solid #ddd;
 }
 
 .comment-form p {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .comment-form label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
+    font-size: 14px;
     font-weight: 600;
-    color: #555;
+    color: #333;
 }
 
 .comment-form input[type="text"],
@@ -88,21 +142,25 @@
 .comment-form input[type="url"],
 .comment-form textarea {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: border-color 0.3s;
+    padding: 12px 20px;
+    border: 1px solid #dcdcdc;
+    border-radius: 30px; /* Pillbox style */
+    background-color: #fff;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .comment-form input:focus,
 .comment-form textarea:focus {
     border-color: #0073aa;
+    box-shadow: 0 0 5px rgba(0, 115, 170, 0.1);
     outline: none;
 }
 
 .comment-form-email-privacy {
     display: flex;
     align-items: center;
+    margin-top: 10px;
 }
 
 .comment-form-email-privacy input {
@@ -111,17 +169,26 @@
 }
 
 .comment-form-email-privacy label {
-    margin-bottom: 0;
+    margin: 0;
+    font-size: 13px;
+    font-weight: normal;
+    color: #555;
+}
+
+.comment-form .form-submit {
+    text-align: right;
+    margin-top: 20px;
 }
 
 .comment-form .form-submit .submit {
     background-color: #0073aa;
     color: #fff;
     border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
+    padding: 12px 35px;
+    border-radius: 30px; /* Pillbox style */
     cursor: pointer;
     font-size: 16px;
+    font-weight: 600;
     transition: background-color 0.3s;
 }
 
@@ -130,6 +197,6 @@
 }
 
 input[type="email"]:disabled {
-    background-color: #eee;
+    background-color: #f0f0f0;
     cursor: not-allowed;
 }

@@ -45,13 +45,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const emailField = document.getElementById('email');
 
     if (emailPrivacyCheckbox && emailField) {
-        emailPrivacyCheckbox.addEventListener('change', function() {
-            if (this.checked) {
+        const req = emailField.hasAttribute('aria-required');
+
+        const updateEmailFieldState = () => {
+            if (emailPrivacyCheckbox.checked) {
                 emailField.disabled = true;
+                emailField.required = false;
                 emailField.value = '';
             } else {
                 emailField.disabled = false;
+                if (req) {
+                    emailField.required = true;
+                }
             }
-        });
+        };
+
+        updateEmailFieldState();
+        emailPrivacyCheckbox.addEventListener('change', updateEmailFieldState);
+    }
+
+    // Smooth scroll to comment anchor
+    if (window.location.hash && window.location.hash.indexOf('#comment-') === 0) {
+        const commentId = window.location.hash;
+        const commentElement = document.querySelector(commentId);
+        if (commentElement) {
+            setTimeout(() => {
+                commentElement.scrollIntoView({ behavior: 'smooth' });
+            }, 500);
+        }
     }
 });
