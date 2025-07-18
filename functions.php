@@ -191,3 +191,9 @@ function gp_remove_anonymous_comment_filter( $id, $comment ) {
         remove_filter( 'pre_option_require_name_email', '__return_false', 9999 );
     }
 }
+
+function gp_limit_comment_depth( $args ) {
+    $args['max_depth'] = 2;
+    return $args;
+}
+add_filter( 'wp_list_comments_args', 'gp_limit_comment_depth' );
