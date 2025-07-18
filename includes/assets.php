@@ -87,20 +87,8 @@ function gp_child_enqueue_assets() {
     if (file_exists($theme_dir . '/assets/js/vendor/clamp.min.js')) {
         wp_enqueue_script('clamp-js', get_stylesheet_directory_uri() . '/assets/js/vendor/clamp.min.js', [], '0.5.1', true);
     }
-
-    $is_dev_mode = defined('WP_DEBUG') && WP_DEBUG;
-
-    if ($is_dev_mode) {
-        // Development: Load main.js as a module
-        if (file_exists($theme_dir . '/assets/js/main.js')) {
-            wp_enqueue_script('gp-main-script', get_stylesheet_directory_uri() . '/assets/js/main.js', ['jquery', 'clamp-js'], filemtime($theme_dir . '/assets/js/main.js'), true);
-        }
-    } else {
-        // Production: Load the bundled script
-        $bundle_js_path = '/assets/dist/main.bundle.js';
-        if (file_exists($theme_dir . $bundle_js_path)) {
-            wp_enqueue_script('gp-main-bundle-script', get_stylesheet_directory_uri() . $bundle_js_path, ['jquery', 'clamp-js'], filemtime($theme_dir . $bundle_js_path), true);
-        }
+    if (file_exists($theme_dir . '/assets/js/main.js')) {
+        wp_enqueue_script('gp-main-script', get_stylesheet_directory_uri() . '/assets/js/main.js', ['jquery', 'clamp-js'], filemtime($theme_dir . '/assets/js/main.js'), true);
     }
 
     // --- Localized Data for JS ---
@@ -168,9 +156,7 @@ function gp_child_enqueue_assets() {
         $localized_data['toc_settings'] = $default_toc_settings;
     }
 
-    // Determine the correct handle to use for localization
-    $main_script_handle = $is_dev_mode ? 'gp-main-script' : 'gp-main-bundle-script';
-    wp_localize_script($main_script_handle, 'gp_settings', $localized_data);
+    wp_localize_script('gp-main-script', 'gp_settings', $localized_data);
 
     // --- Inline & Async Scripts ---
     $custom_css = ':root { --theme-version: "' . esc_attr($theme_version) . '"; }';
@@ -204,18 +190,27 @@ function gp_child_dark_mode_flicker_prevention() {
 add_action( 'wp_head', 'gp_child_dark_mode_flicker_prevention', 0 );
 
 function gp_add_script_attributes( $tag, $handle, $src ) {
-    // Add async to Google AdSense script
+    // Add async to Google AdSense script, which should be loaded ASAP without blocking.
     if ( 'google-adsense' === $handle ) {
         return str_replace( ' src', ' async src', $tag );
     }
 
-    // Add type="module" to the main script in development mode ONLY.
-    $is_dev_mode = defined('WP_DEBUG') && WP_DEBUG;
-    if ( $is_dev_mode && 'gp-main-script' === $handle ) {
+    // For our main script, use type="module" which inherently behaves like defer.
+    if ( 'gp-main-script' === $handle ) {
         return '<script type="module" src="' . esc_url( $src ) . '" id="gp-main-script-js"></script>';
     }
 
-    // The bundled script ('gp-main-bundle-script') does not need type="module"
+    // Defer other non-critical scripts like jQuery and clamp.js.
+    $defer_scripts = [
+        'jquery-core',
+        'jquery-migrate',
+        'clamp-js'
+    ];
+
+    if ( in_array( $handle, $defer_scripts, true ) ) {
+        return str_replace( ' src', ' defer src', $tag );
+    }
+
     return $tag;
 }
 add_filter( 'script_loader_tag', 'gp_add_script_attributes', 10, 3 );

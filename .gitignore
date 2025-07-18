@@ -46,8 +46,3 @@ wp-config.php
 # Note: If you wish to whitelist themes,
 # uncomment the next line
 #/wp-content/themes
-
-# Build files
-/assets/dist/
-node_modules/
-package-lock.json
