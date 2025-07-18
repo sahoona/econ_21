@@ -205,3 +205,13 @@ function gp_ensure_home_pagination( $query ) {
     }
 }
 add_action( 'pre_get_posts', 'gp_ensure_home_pagination' );
+
+function gp_custom_word_count($content) {
+    $content = strip_tags($content);
+    // This regex counts words separated by spaces and also counts sequences of non-space characters as words,
+    // which is more accurate for languages like Korean.
+    // It also correctly handles CJK characters.
+    $pattern = '/[\p{L}\p{N}]+/u';
+    preg_match_all($pattern, $content, $matches);
+    return count($matches[0]);
+}

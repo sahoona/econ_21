@@ -200,7 +200,7 @@ function gp_meta_after_title() {
     $reading_time_text = gp_get_reading_time( $post->ID );
     preg_match('/(\d+)/', $reading_time_text, $matches);
     $reading_time = isset($matches[1]) ? $matches[1] : 1;
-    $word_count = str_word_count(strip_tags($post->post_content)); // for tooltip
+    $word_count = gp_custom_word_count($post->post_content); // for tooltip
 
     echo "<!-- GP_DEBUG: Post ID {$post->ID}, Word Count: {$word_count}, Reading Time: {$reading_time} min -->";
     ?>
