@@ -176,16 +176,7 @@ function gp_comment_form_defaults( $defaults ) {
 function gp_handle_anonymous_comment( $commentdata ) {
     if ( isset( $_POST['wp-comment-email-privacy'] ) && $_POST['wp-comment-email-privacy'] === 'true' ) {
         $commentdata['comment_author_email'] = '';
+        add_filter('pre_option_require_name_email', '__return_false');
     }
     return $commentdata;
 }
-
-function gp_custom_comments_display() {
-    remove_action( 'generate_after_entry_content', 'generate_do_comments_template', 15 );
-    add_action( 'generate_after_entry_content', function() {
-        if ( is_single() && comments_open() ) {
-            comments_template();
-        }
-    }, 15 );
-}
-add_action( 'wp', 'gp_custom_comments_display' );
