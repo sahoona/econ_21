@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function gp_child_theme_setup() {
     add_theme_support('post-thumbnails');
     add_theme_support('html5', array(
-        'search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'script', 'style'
+        'search-form', 'comment-list', 'gallery', 'caption', 'script', 'style'
     ));
     add_theme_support('title-tag');
     add_theme_support('custom-logo');
