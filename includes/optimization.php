@@ -73,11 +73,7 @@ function prefix_defer_js_scripts( $tag, $handle, $src ) {
         'generatepress-modal',
     );
 
-    if ( 'gp-main-script' === $handle ) {
-        return $tag;
-    }
-
-    if ( in_array( $handle, $defer_scripts ) ) {
+    if ( in_array( $handle, $defer_scripts ) || 'gp-main-script' === $handle ) {
         if ( !is_admin() && strpos( $tag, 'defer' ) === false ) {
             return str_replace( ' src', ' defer src', $tag );
         }
@@ -123,7 +119,7 @@ function gp_add_lazy_loading($content) {
     $content = preg_replace('/<img([^>]+?)src=/i', '<img$1loading="lazy" src=', $content);
     return $content;
 }
-//add_filter('the_content', 'gp_add_lazy_loading');
+add_filter('the_content', 'gp_add_lazy_loading');
 
 // Dequeue core block styles
 function gp_dequeue_core_block_styles() {
@@ -153,11 +149,9 @@ function gp_remove_html_comments_callback($buffer) {
     return preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
 }
 
-/*
 function gp_remove_html_comments_buffer_end() {
     if ( !is_admin() && ob_get_length() > 0 ) {
         ob_end_flush();
     }
 }
 add_action('shutdown', 'gp_remove_html_comments_buffer_end');
-*/

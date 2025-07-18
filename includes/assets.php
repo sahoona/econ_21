@@ -23,37 +23,11 @@ function gp_child_enqueue_assets() {
         file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
     );
 
-    $css_files = [
-        'main' => '/assets/css/main.css',
-        'layout' => '/assets/css/layout.css',
-        'components-content' => '/assets/css/components/content.css',
-        'components-dark_mode' => '/assets/css/components/dark_mode.css',
-        'components-header' => '/assets/css/components/header.css',
-        'components-language-switcher-partial' => '/assets/css/components/language-switcher-partial.css',
-        'components-language-switcher' => '/assets/css/components/language-switcher.css',
-        'components-layout' => '/assets/css/components/layout.css',
-        'components-post-navigation' => '/assets/css/components/post-navigation.css',
-        'components-responsive' => '/assets/css/components/responsive.css',
-        'components-variables' => '/assets/css/components/variables.css',
-        'sidebar' => '/assets/css/components/sidebar.css',
-        'ads' => '/components/ads/ads.css',
-        'back-to-top' => '/assets/css/components/back-to-top.css',
-    ];
-
-    $last_style_handle = 'gp-child-style';
-
-    foreach ($css_files as $handle => $path) {
-        if (file_exists($theme_dir . $path)) {
-            $handle = 'gp-' . $handle . '-style';
-            wp_enqueue_style(
-                $handle,
-                get_stylesheet_directory_uri() . $path,
-                [$last_style_handle],
-                filemtime($theme_dir . $path)
-            );
-            $last_style_handle = $handle;
-        }
-    }
+    wp_enqueue_style('gp-main-style',
+        get_stylesheet_directory_uri() . '/assets/css/main.css',
+        ['gp-child-style'],
+        filemtime($theme_dir . '/assets/css/main.css')
+    );
 
     if (file_exists($theme_dir . '/assets/js/vendor/clamp.min.js')) {
         wp_enqueue_script('clamp-js',
@@ -73,46 +47,6 @@ function gp_child_enqueue_assets() {
         );
     }
 
-    // Conditionally enqueue TOC CSS
-    if (is_singular('post')) {
-        $toc_path = '/assets/css/components/table-of-contents.css';
-        if (file_exists($theme_dir . $toc_path)) {
-            wp_enqueue_style(
-                'gp-toc-style',
-                get_stylesheet_directory_uri() . $toc_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $toc_path)
-            );
-            $last_style_handle = 'gp-toc-style';
-        }
-    }
-
-    // Conditionally enqueue Series CSS
-    if (is_singular('post') || is_singular('series') || is_tax('series_category')) {
-        $series_path = '/assets/css/components/series.css';
-        if (file_exists($theme_dir . $series_path)) {
-            wp_enqueue_style(
-                'gp-series-style',
-                get_stylesheet_directory_uri() . $series_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $series_path)
-            );
-        }
-    }
-
-    // Conditionally enqueue Comments CSS
-    if (is_singular() && comments_open()) {
-        $comments_path = '/assets/css/components/comments.css';
-        if (file_exists($theme_dir . $comments_path)) {
-            wp_enqueue_style(
-                'gp-comments-style',
-                get_stylesheet_directory_uri() . $comments_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $comments_path)
-            );
-        }
-    }
-
     // Enqueue YARPP custom CSS
     if (is_singular()) {
         $yarpp_custom_css_path = '/yarpp-custom.css';
@@ -120,7 +54,7 @@ function gp_child_enqueue_assets() {
             wp_enqueue_style(
                 'gp-yarpp-custom-style',
                 get_stylesheet_directory_uri() . $yarpp_custom_css_path,
-                ['gp-series-style'],
+                ['gp-main-style'],
                 filemtime($theme_dir . $yarpp_custom_css_path)
             );
         }

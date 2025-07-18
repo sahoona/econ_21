@@ -22,17 +22,26 @@ require_once get_stylesheet_directory() . '/includes/optimization.php';
 require_once get_stylesheet_directory() . '/includes/seo.php';
 require_once get_stylesheet_directory() . '/includes/layout-hooks.php';
 require_once get_stylesheet_directory() . '/includes/template-tags.php';
-require_once get_stylesheet_directory() . '/includes/toc.php';
-require_once get_stylesheet_directory() . '/includes/post-features.php';
-require_once get_stylesheet_directory() . '/includes/related-posts.php';
 require_once get_stylesheet_directory() . '/includes/ajax-handlers.php';
 require_once get_stylesheet_directory() . '/includes/helpers.php';
-require_once get_stylesheet_directory() . '/includes/admin.php';
-require_once get_stylesheet_directory() . '/includes/customizer.php';
-require_once get_stylesheet_directory() . '/includes/widgets.php';
 
 // Load components
 require_once get_stylesheet_directory() . '/components/ads/ads.php';
+
+// Load files conditionally
+add_action( 'wp', function() {
+    if ( is_singular( 'post' ) ) {
+        require_once get_stylesheet_directory() . '/includes/toc.php';
+        require_once get_stylesheet_directory() . '/includes/post-features.php';
+        require_once get_stylesheet_directory() . '/includes/related-posts.php';
+    }
+} );
+
+if ( is_admin() ) {
+    require_once get_stylesheet_directory() . '/includes/admin.php';
+    require_once get_stylesheet_directory() . '/includes/customizer.php';
+    require_once get_stylesheet_directory() . '/includes/widgets.php';
+}
 
 
 // -----------------------------------------------------------------------------
