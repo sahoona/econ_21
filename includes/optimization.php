@@ -20,8 +20,31 @@ function gp_optimize_wordpress() {
     remove_action('wp_print_styles', 'print_emoji_styles');
     remove_action('admin_print_styles', 'print_emoji_styles');
     remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+
+    // Remove oEmbed discovery links
+    remove_action('wp_head', 'wp_oembed_add_discovery_links');
+    // Remove oEmbed-specific JavaScript from the front-end and back-end
+    remove_action('wp_head', 'wp_oembed_add_host_js');
 }
 add_action('init', 'gp_optimize_wordpress');
+
+/**
+ * Disable Heartbeat API for non-admin users to reduce server load.
+ */
+function gp_child_optimize_heartbeat_api($settings) {
+    if (!current_user_can('manage_options')) {
+        $settings['autostart'] = false;
+    }
+    return $settings;
+}
+add_filter('heartbeat_settings', 'gp_child_optimize_heartbeat_api');
+
+function gp_child_dequeue_heartbeat_script() {
+    if (!current_user_can('manage_options')) {
+        wp_dequeue_script('heartbeat');
+    }
+}
+add_action('wp_enqueue_scripts', 'gp_child_dequeue_heartbeat_script', 100);
 
 // Disable XML-RPC
 add_filter('xmlrpc_enabled', '__return_false');
