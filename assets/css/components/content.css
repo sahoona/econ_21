@@ -79,6 +79,11 @@ img {
     max-width: 100%;
 }
 
+.entry-content img, .entry-summary img {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
 /* Lazy loading support */
 img[loading="lazy"] {
     opacity: 0;

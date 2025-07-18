@@ -9,6 +9,9 @@
     padding: 4px 0;
     padding-bottom: 5px !important;
     transition: background-color var(--default-transition-duration) var(--default-transition-timing-function), border-color var(--default-transition-duration) var(--default-transition-timing-function);
+    max-width: 100%;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* 메인 네비게이션 */
@@ -107,4 +110,9 @@
 .site-header .main-title a:active {
     transform: translateY(0px);
     transition-duration: 0.1s;
+}
+
+.left-buttons {
+    display: flex;
+    align-items: center;
 }

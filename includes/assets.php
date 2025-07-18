@@ -38,6 +38,7 @@ function gp_child_enqueue_assets() {
         'lang-switcher-p' => '/assets/css/components/language-switcher-partial.css',
         'back-to-top' => '/assets/css/components/back-to-top.css',
         'ads'         => '/components/ads/ads.css',
+        'share-button' => '/assets/css/components/share-button.css',
         // Content
         'content'     => '/assets/css/components/content.css',
         'post-nav'    => '/assets/css/components/post-navigation.css',
