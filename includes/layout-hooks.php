@@ -56,47 +56,28 @@ function gp_add_elements_to_excerpt( $excerpt ) {
 add_filter( 'the_excerpt', 'gp_add_elements_to_excerpt' );
 
 /**
- * Inject custom CSS into the head for single posts to fix layout issues.
+ * Inject minimal and targeted CSS to fix specific layout issues on single posts.
  */
 function gp_child_inject_single_post_layout_css() {
     if ( is_singular() ) {
         $css = '
             <style>
-                /* 1. Force header content into a single line */
-                .site-header .inside-header {
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: space-between !important;
-                    width: 100% !important;
-                }
-
-                /* 2. Constrain the width of header and main content */
-                body.single .site-header .inside-header,
-                body.single .site-content {
+                /* 1. Constrain the main article container width */
+                .single .inside-article {
                     max-width: var(--container-max-width, 840px) !important;
                     margin-left: auto !important;
                     margin-right: auto !important;
                 }
 
-                /* 3. Remove gray background and extra padding from featured image */
+                /* 2. Remove gray background from the featured image container */
                 .featured-image {
                     background-color: transparent !important;
-                    padding: 0 !important; /* Remove padding that creates the gray border effect */
-                }
-                .featured-image img {
-                    width: 100% !important;
-                    height: auto !important;
                 }
 
-                /* 4. Add top margin to breadcrumbs for spacing */
+                /* 3. Add top margin to breadcrumbs for spacing */
                 .entry-header .gp-post-category {
                     margin-top: 20px !important;
                     margin-bottom: 20px !important;
-                }
-
-                /* 5. Remove gray background from standard content images */
-                .entry-content .wp-block-image {
-                    background-color: transparent !important;
                 }
             </style>
         ';
