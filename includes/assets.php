@@ -26,27 +26,41 @@ function gp_child_enqueue_assets() {
         file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
     );
 
-    // Enqueue the single, merged stylesheet.
+    $last_style_handle = 'gp-child-style';
+
+    // Enqueue main.css
     $main_css_path = '/assets/css/main.css';
     if (file_exists($theme_dir . $main_css_path)) {
         wp_enqueue_style(
             'gp-main-style',
             get_stylesheet_directory_uri() . $main_css_path,
-            ['gp-child-style'],
+            [$last_style_handle],
             filemtime($theme_dir . $main_css_path)
+        );
+        $last_style_handle = 'gp-main-style';
+    }
+
+    // Enqueue layout.css
+    $layout_css_path = '/assets/css/layout.css';
+    if (file_exists($theme_dir . $layout_css_path)) {
+        wp_enqueue_style(
+            'gp-layout-style',
+            get_stylesheet_directory_uri() . $layout_css_path,
+            [$last_style_handle],
+            filemtime($theme_dir . $layout_css_path)
         );
     }
 
     if (file_exists($theme_dir . '/assets/js/main.js')) {
         wp_enqueue_script('gp-main-script',
             get_stylesheet_directory_uri() . '/assets/js/main.js',
-            array('jquery'),
+            array('jquery', 'clamp-js'),
             filemtime($theme_dir . '/assets/js/main.js'),
             true
         );
     }
 
-    // The previously conditional CSS files are now merged into main.css.
+    // The previously conditional CSS files are now merged into layout.css.
     // The following blocks are removed to avoid redundant loading.
 
 

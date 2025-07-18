@@ -153,6 +153,15 @@ function gp_remove_html_comments_callback($buffer) {
     return preg_replace('/<!--(.|\s)*?-->/', '', $buffer);
 }
 
+/*
+function gp_remove_html_comments_buffer_end() {
+    if ( !is_admin() && ob_get_length() > 0 ) {
+        ob_end_flush();
+    }
+}
+add_action('shutdown', 'gp_remove_html_comments_buffer_end');
+*/
+
 /**
  * Control Heartbeat API
  *
@@ -165,12 +174,3 @@ function gp_control_heartbeat_api( $settings ) {
     return $settings;
 }
 add_filter( 'heartbeat_settings', 'gp_control_heartbeat_api' );
-
-/*
-function gp_remove_html_comments_buffer_end() {
-    if ( !is_admin() && ob_get_length() > 0 ) {
-        ob_end_flush();
-    }
-}
-add_action('shutdown', 'gp_remove_html_comments_buffer_end');
-*/
