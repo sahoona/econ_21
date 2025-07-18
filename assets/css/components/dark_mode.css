@@ -512,17 +512,11 @@ body:not(.single) .gp-top-meta-bar-container { display: none; }
    ========================================================================== */
 
 /* 1. NEW & UPDATED 배지 - 접근성을 충족하는 최종 미니멀 디자인 */
-.gp-new-badge,
 .gp-updated-badge,
-.featured-image .gp-new-badge,
-.post-image .gp-new-badge,
 .featured-image .gp-updated-badge,
 .post-image .gp-updated-badge,
-span.gp-new-badge,
 span.gp-updated-badge,
-.post .gp-new-badge,
 .post .gp-updated-badge,
-article .gp-new-badge,
 article .gp-updated-badge {
     position: absolute !important;
     top: 18px !important;
@@ -1680,7 +1674,6 @@ html.dark-mode-active .gp-post-category a:hover {
 }
 
 /* 다크모드 NEW/UPDATED 배지 복구 */
-html.dark-mode-active .gp-new-badge,
 html.dark-mode-active .gp-updated-badge {
     background-color: var(--badge-background-color) !important; /* 배경색 재지정 */
     border: none !important;
