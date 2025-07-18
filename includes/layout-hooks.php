@@ -54,3 +54,40 @@ function gp_add_elements_to_excerpt( $excerpt ) {
     return $excerpt . $additional_elements;
 }
 add_filter( 'the_excerpt', 'gp_add_elements_to_excerpt' );
+
+/**
+ * Inject custom CSS into the head for single posts to constrain layout width.
+ * This is a robust way to ensure styles are applied without being overridden.
+ */
+function gp_child_inject_single_post_layout_css() {
+    if ( is_singular() ) {
+        $css = '
+            <style>
+                /* Constrain the main content column */
+                body.single .site-main {
+                    max-width: var(--container-max-width, 840px) !important;
+                    margin-left: auto !important;
+                    margin-right: auto !important;
+                }
+                /* Apply padding to direct children of the main content area */
+                body.single-post .site-main .inside-article > * {
+                    padding-left: var(--mobile-padding, 24px) !important;
+                    padding-right: var(--mobile-padding, 24px) !important;
+                    box-sizing: border-box !important;
+                }
+                /* Handle full-width featured image separately */
+                body.single-post .site-main .featured-image {
+                     padding-left: var(--mobile-padding, 24px) !important;
+                     padding-right: var(--mobile-padding, 24px) !important;
+                     box-sizing: border-box !important;
+                }
+                 /* Remove padding from the parent to avoid double-padding */
+                body.single-post .site-main > .inside-article {
+                    padding: 0 !important;
+                }
+            </style>
+        ';
+        echo $css;
+    }
+}
+add_action('wp_head', 'gp_child_inject_single_post_layout_css');
