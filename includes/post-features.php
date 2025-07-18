@@ -218,7 +218,7 @@ function gp_meta_after_title() {
                 <div class="date-secondary"><span class="date-label">Published:</span><time datetime="<?php echo esc_attr(get_the_date('c')); ?>"><?php echo esc_html(get_the_date('Y.m.d')); ?></time></div>
             <?php endif; ?>
         </div>
-        <span class="reading-time-meta" data-tooltip-text="<?php echo number_format($word_count); ?> words"><?php echo $reading_time; ?> Min</span>
+        <span class="reading-time-meta" data-tooltip-text="<?php echo number_format($word_count); ?> words"><?php echo $reading_time; ?></span>
         <span class="byline"><span class="author-label">by</span><span class="author-name-no-link"><?php echo esc_html($author_display_name); ?></span></span>
     </div>
     <?php
