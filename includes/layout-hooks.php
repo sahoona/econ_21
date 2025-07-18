@@ -62,11 +62,13 @@ function gp_child_inject_single_post_layout_css() {
     if ( is_singular() ) {
         $css = '
             <style>
-                /* 1. Constrain the main article container width */
+                /* 1. Constrain the main article container and set side padding */
                 .single .inside-article {
                     max-width: var(--container-max-width, 840px) !important;
                     margin-left: auto !important;
                     margin-right: auto !important;
+                    padding-left: 20px !important;
+                    padding-right: 20px !important;
                 }
 
                 /* 2. Remove gray background from the featured image container */
@@ -74,10 +76,23 @@ function gp_child_inject_single_post_layout_css() {
                     background-color: transparent !important;
                 }
 
-                /* 3. Add top margin to breadcrumbs for spacing */
-                .entry-header .gp-post-category {
-                    margin-top: 20px !important;
-                    margin-bottom: 20px !important;
+                /* 3. Adjust spacing around breadcrumbs and entry header */
+                .entry-header {
+                    margin-bottom: 20px !important; /* Space between header and breadcrumbs */
+                }
+                .gp-post-category {
+                    margin-top: 20px !important;    /* Space above breadcrumbs */
+                    margin-bottom: 20px !important; /* Space below breadcrumbs */
+                }
+
+                /* 4. Make previous post link full-width when it is the only child */
+                .post-navigation .nav-links .nav-previous:only-child {
+                    width: 100% !important;
+                    text-align: center !important;
+                    justify-content: center !important;
+                }
+                 .post-navigation .nav-links .nav-previous:only-child .nav-arrow {
+                    margin-right: 10px !important;
                 }
             </style>
         ';
