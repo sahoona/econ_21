@@ -26,6 +26,11 @@ function gp_layout_setup() {
     add_action( 'generate_after_entry_content', 'gppress_tags_before_related', 9);
     add_action( 'generate_after_entry_content', 'gp_render_post_footer_sections', 11 );
     add_action( 'generate_after_entry_content', 'gp_series_posts_output', 15 );
+    add_action( 'generate_after_entry_content', function() {
+        if ( is_single() && comments_open() ) {
+            comments_template();
+        }
+    }, 16 );
     add_action( 'generate_after_entry_content', 'gp_custom_post_navigation_output', 20 );
 
     add_action( 'generate_before_entry_content', 'gp_featured_image_output', 5 );

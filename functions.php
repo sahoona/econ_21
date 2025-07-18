@@ -26,6 +26,7 @@ require_once get_stylesheet_directory() . '/includes/helpers.php';
 require_once get_stylesheet_directory() . '/includes/admin.php';
 require_once get_stylesheet_directory() . '/includes/customizer.php';
 require_once get_stylesheet_directory() . '/includes/widgets.php';
+require_once get_stylesheet_directory() . '/includes/comments.php';
 
 // Load components
 require_once get_stylesheet_directory() . '/components/ads/ads.php';
@@ -91,101 +92,3 @@ function gp_enable_comments( $post ) {
     }
 }
 add_action( 'the_post', 'gp_enable_comments' );
-
-// Filter to modify the comment fields
-add_filter( 'comment_form_default_fields', 'gp_modify_comment_fields' );
-add_filter( 'preprocess_comment', 'gp_handle_anonymous_comment' );
-
-/**
- * Modify the default comment fields.
- *
- * @param array $fields The default comment fields.
- * @return array The modified comment fields.
- */
-function gp_modify_comment_fields( $fields ) {
-    $commenter = wp_get_current_commenter();
-    $req       = get_option( 'require_name_email' );
-    $aria_req  = ( $req ? " aria-required='true'" : '' );
-
-    // Add a class to the comment notes
-    add_filter( 'comment_form_defaults', 'gp_comment_form_defaults' );
-
-    // Unset the original email and URL fields
-    unset( $fields['email'], $fields['url'] );
-
-    $fields['author'] = sprintf(
-        '<p class="comment-form-author">%s</p>',
-        sprintf(
-            '<label for="author">%s%s</label> <input id="author" name="author" type="text" value="%s" size="30"%s />',
-            __( 'Name', 'gp-child-theme' ),
-            ( $req ? ' <span class="required">*</span>' : '' ),
-            esc_attr( $commenter['comment_author'] ),
-            $aria_req
-        )
-    );
-
-    $fields['email'] = sprintf(
-        '<p class="comment-form-email">%s %s</p>',
-        sprintf(
-            '<label for="email">%s%s</label> <input id="email" name="email" type="email" value="%s" size="30" aria-describedby="email-notes"%s />',
-            __( 'Email', 'gp-child-theme' ),
-            ( $req ? ' <span class="required">*</span>' : '' ),
-            esc_attr( $commenter['comment_author_email'] ),
-            $aria_req
-        ),
-        sprintf(
-            '<span class="comment-form-email-privacy"><input id="wp-comment-email-privacy" name="wp-comment-email-privacy" type="checkbox" value="true" /> <label for="wp-comment-email-privacy">%s</label></span>',
-            __( 'Do not wish to disclose.', 'gp-child-theme' )
-        )
-    );
-
-    $fields['url'] = sprintf(
-        '<p class="comment-form-url">%s</p>',
-        sprintf(
-            '<label for="url">%s</label><input id="url" name="url" type="url" value="%s" size="30" />',
-            __( 'Website', 'gp-child-theme' ),
-            esc_attr( $commenter['comment_author_url'] )
-        )
-    );
-
-    return $fields;
-}
-
-/**
- * Modify the comment form defaults.
- *
- * @param array $defaults The default comment form arguments.
- * @return array The modified comment form arguments.
- */
-function gp_comment_form_defaults( $defaults ) {
-    $defaults['comment_notes_before'] = '<p class="comment-notes">' .
-        __( 'Your email address will not be published.', 'gp-child-theme' ) .
-        '</p>';
-    return $defaults;
-}
-
-/**
- * Handle anonymous comments.
- *
- * If the "Do not wish to disclose" checkbox is checked,
- * this function will remove the email address from the comment data.
- *
- * @param array $commentdata Comment data.
- * @return array Comment data.
- */
-function gp_handle_anonymous_comment( $commentdata ) {
-    if ( isset( $_POST['wp-comment-email-privacy'] ) && $_POST['wp-comment-email-privacy'] === 'true' ) {
-        $commentdata['comment_author_email'] = '';
-    }
-    return $commentdata;
-}
-
-function gp_custom_comments_display() {
-    remove_action( 'generate_after_entry_content', 'generate_do_comments_template', 15 );
-    add_action( 'generate_after_entry_content', function() {
-        if ( is_single() && comments_open() ) {
-            comments_template();
-        }
-    }, 15 );
-}
-add_action( 'wp', 'gp_custom_comments_display' );
