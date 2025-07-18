@@ -8,7 +8,8 @@ Version: 22.7.14 (SEO & Accessibility Enhanced)
 Template: generatepress
 */
 
-/* Font imports are now handled in functions.php using wp_enqueue_style for better performance. */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
 
 :root { --container-max-width: 840px; --mobile-padding: 24px; --color-primary: #36A29B; --color-highlight-underline: rgba(54, 162, 155, 0.3); --color-text-title: #1E293B; --color-text-body: #334155; --color-text-blockquote: #5E6C77; --color-background: #FFFFFF; --color-background-soft: #F8FAFC; --color-border: #E2E8F0; --font-main: 'Pretendard Variable', 'NanumSquareNeo', 'Malgun Gothic', sans-serif; --font-title-logo: 'Lexend Deca', sans-serif; --font-extrabold-legacy: 'NanumSquareNeoExtraBold', 'Malgun Gothic', sans-serif; }
 
