@@ -56,47 +56,46 @@ function gp_add_elements_to_excerpt( $excerpt ) {
 add_filter( 'the_excerpt', 'gp_add_elements_to_excerpt' );
 
 /**
- * Inject custom CSS into the head for single posts to constrain layout width.
- * This is a robust way to ensure styles are applied without being overridden.
+ * Inject custom CSS into the head for single posts to fix layout issues.
  */
 function gp_child_inject_single_post_layout_css() {
     if ( is_singular() ) {
         $css = '
             <style>
-                /* Constrain the main header and content column */
+                /* 1. Force header content into a single line */
+                .site-header .inside-header {
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: space-between !important;
+                    width: 100% !important;
+                }
+
+                /* 2. Constrain the width of header and main content */
                 body.single .site-header .inside-header,
-                body.single .site-main {
+                body.single .site-content {
                     max-width: var(--container-max-width, 840px) !important;
                     margin-left: auto !important;
                     margin-right: auto !important;
                 }
 
-                /* Add top margin to breadcrumbs */
-                body.single .entry-header .gp-post-category {
+                /* 3. Remove gray background and extra padding from featured image */
+                .featured-image {
+                    background-color: transparent !important;
+                    padding: 0 !important; /* Remove padding that creates the gray border effect */
+                }
+                .featured-image img {
+                    width: 100% !important;
+                    height: auto !important;
+                }
+
+                /* 4. Add top margin to breadcrumbs for spacing */
+                .entry-header .gp-post-category {
                     margin-top: 20px !important;
+                    margin-bottom: 20px !important;
                 }
 
-                /* Apply padding to direct children of the main content area */
-                body.single .site-main .inside-article > * {
-                    padding-left: var(--mobile-padding, 24px) !important;
-                    padding-right: var(--mobile-padding, 24px) !important;
-                    box-sizing: border-box !important;
-                }
-
-                /* Handle full-width featured image separately */
-                body.single .site-main .featured-image {
-                     padding-left: var(--mobile-padding, 24px) !important;
-                     padding-right: var(--mobile-padding, 24px) !important;
-                     box-sizing: border-box !important;
-                }
-
-                /* Remove padding from the parent to avoid double-padding */
-                body.single .site-main > .inside-article {
-                    padding: 0 !important;
-                }
-
-                /* Remove gray background from images */
-                body.single .wp-block-image {
+                /* 5. Remove gray background from standard content images */
+                .entry-content .wp-block-image {
                     background-color: transparent !important;
                 }
             </style>
@@ -104,4 +103,4 @@ function gp_child_inject_single_post_layout_css() {
         echo $css;
     }
 }
-add_action('wp_head', 'gp_child_inject_single_post_layout_css');
+add_action('wp_head', 'gp_child_inject_single_post_layout_css', 999);
