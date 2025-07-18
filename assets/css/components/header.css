@@ -71,19 +71,26 @@
 /* New & Updated Pill-box Design */
 .main-nav .menu-item a[href*="/new/"],
 .main-nav .menu-item a[href*="/updated/"] {
-    color: #fff !important;
-    background-color: #E53E3E; /* Red-500 */
-    padding: 6px 12px;
-    border-radius: 9999px; /* Pill shape */
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
+    background-color: #D93025 !important;
+    color: #FFFFFF !important;
+    padding: 5px 12px !important;
+    border-radius: 999px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    line-height: 1.4 !important;
+    text-align: center;
+    letter-spacing: 0.2px;
+    border: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    transform: translateZ(0);
     transition: background-color 0.2s ease-in-out;
 }
 
 .main-nav .menu-item a[href*="/new/"]:hover,
 .main-nav .menu-item a[href*="/updated/"]:hover {
-    background-color: #C53030; /* Red-600 */
+    background-color: #C53030 !important; /* Slightly darker red on hover */
 }
 
 /* Mobile Menu Toggle Background Fix */
