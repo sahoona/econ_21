@@ -59,9 +59,10 @@
 
 /* Comment Metadata */
 .comment-meta {
-    font-size: 13px;
+    font-size: 9px;
     color: #888;
     display: inline;
+    font-weight: 300;
 }
 
 .comment-author-info {
@@ -99,15 +100,21 @@
 }
 
 .comment-reply-link {
-    font-size: 13px;
-    font-weight: 600;
-    color: #0073aa;
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
     text-decoration: none;
-    transition: color 0.3s;
+    transition: background-color 0.3s;
 }
 
 .comment-reply-link:hover {
-    color: #005a87;
+    background-color: #005a87;
+    color: #fff;
 }
 
 /* Comment Form */
