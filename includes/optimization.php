@@ -184,3 +184,14 @@ function gp_remove_html_comments_buffer_end() {
 }
 add_action('shutdown', 'gp_remove_html_comments_buffer_end');
 */
+
+/**
+ * Add DNS prefetch links for external domains to speed up connection.
+ */
+function gp_child_add_dns_prefetch() {
+    echo '<link rel="dns-prefetch" href="//fonts.googleapis.com">';
+    echo '<link rel="dns-prefetch" href="//fonts.gstatic.com">';
+    echo '<link rel="dns-prefetch" href="//pagead2.googlesyndication.com">';
+    // Add any other external domains used by the theme here.
+}
+add_action('wp_head', 'gp_child_add_dns_prefetch', 1);
