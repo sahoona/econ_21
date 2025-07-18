@@ -14,129 +14,84 @@ function gp_child_enqueue_assets() {
     $theme_version = wp_get_theme()->get('Version');
     $theme_dir = get_stylesheet_directory();
 
-    // Enqueue local fonts
-    $fonts_path = '/assets/css/components/fonts.css';
-    if (file_exists($theme_dir . $fonts_path)) {
-        wp_enqueue_style(
-            'gp-local-fonts',
-            get_stylesheet_directory_uri() . $fonts_path,
-            [],
-            filemtime($theme_dir . $fonts_path)
-        );
-    }
-
+    // Base GeneratePress Style
     wp_enqueue_style('generatepress-style', get_template_directory_uri() . '/style.css');
-    wp_enqueue_style('gp-child-style',
-        get_stylesheet_uri(),
-        array('generatepress-style', 'gp-local-fonts'),
-        file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version
-    );
 
+    // Child theme style.css
+    wp_enqueue_style('gp-child-style', get_stylesheet_uri(), ['generatepress-style'], file_exists($theme_dir . '/style.css') ? filemtime($theme_dir . '/style.css') : $theme_version);
+
+    // --- Load all CSS files individually ---
     $css_files = [
-        'main' => '/assets/css/main.css',
-        'layout' => '/assets/css/layout.css',
-        'components-content' => '/assets/css/components/content.css',
-        'components-dark_mode' => '/assets/css/components/dark_mode.css',
-        'components-header' => '/assets/css/components/header.css',
-        'components-language-switcher-partial' => '/assets/css/components/language-switcher-partial.css',
-        'components-language-switcher' => '/assets/css/components/language-switcher.css',
-        'components-layout' => '/assets/css/components/layout.css',
-        'components-post-navigation' => '/assets/css/components/post-navigation.css',
-        'components-responsive' => '/assets/css/components/responsive.css',
-        'components-variables' => '/assets/css/components/variables.css',
-        'sidebar' => '/assets/css/components/sidebar.css',
-        'ads' => '/components/ads/ads.css',
+        // Core
+        'variables'   => '/assets/css/components/variables.css',
+        'fonts'       => '/assets/css/components/fonts.css',
+        'main'        => '/assets/css/main.css',
+        // Layout
+        'layout'      => '/assets/css/layout.css',
+        'c-layout'    => '/assets/css/components/layout.css',
+        'header'      => '/assets/css/components/header.css',
+        'sidebar'     => '/assets/css/components/sidebar.css',
+        'responsive'  => '/assets/css/components/responsive.css',
+        // Components
+        'dark_mode'   => '/assets/css/components/dark_mode.css',
+        'lang-switcher' => '/assets/css/components/language-switcher.css',
+        'lang-switcher-p' => '/assets/css/components/language-switcher-partial.css',
         'back-to-top' => '/assets/css/components/back-to-top.css',
+        'ads'         => '/components/ads/ads.css',
+        // Content
+        'content'     => '/assets/css/components/content.css',
+        'post-nav'    => '/assets/css/components/post-navigation.css',
     ];
 
-    $last_style_handle = 'gp-child-style';
-
+    $last_handle = 'gp-child-style';
     foreach ($css_files as $handle => $path) {
         if (file_exists($theme_dir . $path)) {
-            $handle = 'gp-' . $handle . '-style';
-            wp_enqueue_style(
-                $handle,
-                get_stylesheet_directory_uri() . $path,
-                [$last_style_handle],
-                filemtime($theme_dir . $path)
-            );
-            $last_style_handle = $handle;
+            $file_handle = 'gp-' . $handle . '-style';
+            wp_enqueue_style($file_handle, get_stylesheet_directory_uri() . $path, [$last_handle], filemtime($theme_dir . $path));
+            $last_handle = $file_handle;
         }
     }
 
-    if (file_exists($theme_dir . '/assets/js/vendor/clamp.min.js')) {
-        wp_enqueue_script('clamp-js',
-            get_stylesheet_directory_uri() . '/assets/js/vendor/clamp.min.js',
-            array(),
-            '0.5.1',
-            true
-        );
-    }
-
-    if (file_exists($theme_dir . '/assets/js/main.js')) {
-        wp_enqueue_script('gp-main-script',
-            get_stylesheet_directory_uri() . '/assets/js/main.js',
-            array('jquery', 'clamp-js'),
-            filemtime($theme_dir . '/assets/js/main.js'),
-            true
-        );
-    }
-
-    // Conditionally enqueue TOC CSS
+    // --- Conditionally Enqueued CSS ---
+    // TOC CSS
     if (is_singular('post')) {
         $toc_path = '/assets/css/components/table-of-contents.css';
         if (file_exists($theme_dir . $toc_path)) {
-            wp_enqueue_style(
-                'gp-toc-style',
-                get_stylesheet_directory_uri() . $toc_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $toc_path)
-            );
-            $last_style_handle = 'gp-toc-style';
+            wp_enqueue_style('gp-toc-style', get_stylesheet_directory_uri() . $toc_path, [$last_handle], filemtime($theme_dir . $toc_path));
         }
     }
 
-    // Conditionally enqueue Series CSS
+    // Series & YARPP CSS
     if (is_singular('post') || is_singular('series') || is_tax('series_category')) {
         $series_path = '/assets/css/components/series.css';
         if (file_exists($theme_dir . $series_path)) {
-            wp_enqueue_style(
-                'gp-series-style',
-                get_stylesheet_directory_uri() . $series_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $series_path)
-            );
+            wp_enqueue_style('gp-series-style', get_stylesheet_directory_uri() . $series_path, [$last_handle], filemtime($theme_dir . $series_path));
+            $last_handle = 'gp-series-style';
+        }
+
+        $yarpp_custom_css_path = '/yarpp-custom.css';
+        if (file_exists($theme_dir . $yarpp_custom_css_path)) {
+            wp_enqueue_style('gp-yarpp-custom-style', get_stylesheet_directory_uri() . $yarpp_custom_css_path, [$last_handle], filemtime($theme_dir . $yarpp_custom_css_path));
         }
     }
 
-    // Conditionally enqueue Comments CSS
+    // Comments CSS
     if (is_singular() && comments_open()) {
         $comments_path = '/assets/css/components/comments.css';
         if (file_exists($theme_dir . $comments_path)) {
-            wp_enqueue_style(
-                'gp-comments-style',
-                get_stylesheet_directory_uri() . $comments_path,
-                [$last_style_handle],
-                filemtime($theme_dir . $comments_path)
-            );
+            wp_enqueue_style('gp-comments-style', get_stylesheet_directory_uri() . $comments_path, [$last_handle], filemtime($theme_dir . $comments_path));
         }
     }
 
-    // Enqueue YARPP custom CSS
-    if (is_singular()) {
-        $yarpp_custom_css_path = '/yarpp-custom.css';
-        if (file_exists($theme_dir . $yarpp_custom_css_path)) {
-            wp_enqueue_style(
-                'gp-yarpp-custom-style',
-                get_stylesheet_directory_uri() . $yarpp_custom_css_path,
-                ['gp-series-style'],
-                filemtime($theme_dir . $yarpp_custom_css_path)
-            );
-        }
+    // --- JavaScript Files ---
+    if (file_exists($theme_dir . '/assets/js/vendor/clamp.min.js')) {
+        wp_enqueue_script('clamp-js', get_stylesheet_directory_uri() . '/assets/js/vendor/clamp.min.js', [], '0.5.1', true);
+    }
+    if (file_exists($theme_dir . '/assets/js/main.js')) {
+        wp_enqueue_script('gp-main-script', get_stylesheet_directory_uri() . '/assets/js/main.js', ['jquery', 'clamp-js'], filemtime($theme_dir . '/assets/js/main.js'), true);
     }
 
-
-
+    // --- Localized Data for JS ---
     $localized_data = [
 		'ajax_url'        => admin_url('admin-ajax.php'),
 		'reactions_nonce' => wp_create_nonce('gp_reactions_nonce'),
@@ -147,7 +102,6 @@ function gp_child_enqueue_assets() {
         'currentPostType' => 'unknown',
         'isFrontPage' => is_front_page(),
         'isHome' => is_home(),
-        // Ad settings
         'ads_enabled' => get_theme_mod('econarc_ads_enabled', false),
         'top_ad_enabled' => get_theme_mod('econarc_top_ad_enabled', false),
         'infeed_ad_enabled' => get_theme_mod('econarc_infeed_ad_enabled', false),
@@ -204,11 +158,10 @@ function gp_child_enqueue_assets() {
 
     wp_localize_script('gp-main-script', 'gp_settings', $localized_data);
 
-
+    // --- Inline & Async Scripts ---
     $custom_css = ':root { --theme-version: "' . esc_attr($theme_version) . '"; }';
     wp_add_inline_style('gp-child-style', $custom_css);
 
-    // Google AdSense 스크립트 비동기 로드
     $ad_client = get_theme_mod('econarc_ad_client');
     if ( ! empty( trim( $ad_client ) ) ) {
         wp_enqueue_script(
@@ -222,9 +175,6 @@ function gp_child_enqueue_assets() {
 }
 add_action('wp_enqueue_scripts', 'gp_child_enqueue_assets');
 
-/**
- * Add inline script to head for dark mode flickering prevention.
- */
 function gp_child_dark_mode_flicker_prevention() {
     ?>
     <script>
@@ -239,23 +189,28 @@ function gp_child_dark_mode_flicker_prevention() {
 }
 add_action( 'wp_head', 'gp_child_dark_mode_flicker_prevention', 0 );
 
-/**
- * 스크립트 태그에 async 또는 module type 속성을 추가합니다.
- *
- * @param string $tag    The <script> tag for the enqueued script.
- * @param string $handle The script's handle.
- * @param string $src    The script's source URL.
- * @return string Modified <script> tag.
- */
 function gp_add_script_attributes( $tag, $handle, $src ) {
-    // 애드센스 스크립트에 async 속성 추가
+    // Add async to Google AdSense script, which should be loaded ASAP without blocking.
     if ( 'google-adsense' === $handle ) {
         return str_replace( ' src', ' async src', $tag );
     }
-    // 메인 스크립트에 module 타입 추가
+
+    // For our main script, use type="module" which inherently behaves like defer.
     if ( 'gp-main-script' === $handle ) {
         return '<script type="module" src="' . esc_url( $src ) . '" id="gp-main-script-js"></script>';
     }
+
+    // Defer other non-critical scripts like jQuery and clamp.js.
+    $defer_scripts = [
+        'jquery-core',
+        'jquery-migrate',
+        'clamp-js'
+    ];
+
+    if ( in_array( $handle, $defer_scripts, true ) ) {
+        return str_replace( ' src', ' defer src', $tag );
+    }
+
     return $tag;
 }
 add_filter( 'script_loader_tag', 'gp_add_script_attributes', 10, 3 );
