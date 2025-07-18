@@ -204,6 +204,7 @@ function gp_remove_anonymous_comment_filter( $id, $comment ) {
 function gp_limit_comment_depth( $args ) {
     $args['max_depth'] = 2;
     $args['callback'] = 'gp_custom_comment';
+    $args['reverse_top_level'] = false;
     return $args;
 }
 add_filter( 'wp_list_comments_args', 'gp_limit_comment_depth' );
