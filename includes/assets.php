@@ -100,6 +100,19 @@ function gp_child_enqueue_assets() {
         }
     }
 
+    // Conditionally enqueue Comments CSS
+    if (is_singular() && comments_open()) {
+        $comments_path = '/assets/css/components/comments.css';
+        if (file_exists($theme_dir . $comments_path)) {
+            wp_enqueue_style(
+                'gp-comments-style',
+                get_stylesheet_directory_uri() . $comments_path,
+                [$last_style_handle],
+                filemtime($theme_dir . $comments_path)
+            );
+        }
+    }
+
     // Enqueue YARPP custom CSS
     if (is_singular()) {
         $yarpp_custom_css_path = '/yarpp-custom.css';

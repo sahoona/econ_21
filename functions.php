@@ -73,3 +73,46 @@ function gp_clear_reading_time_cache( $post_id ) {
     delete_transient( 'gp_reading_time_' . $post_id );
 }
 add_action( 'save_post', 'gp_clear_reading_time_cache' );
+
+// Enable comments on all posts
+function gp_enable_comments( $post ) {
+    if ( $post instanceof WP_Post && $post->post_type == 'post' && comments_open( $post->ID ) ) {
+        // Comments are already open
+        return;
+    }
+
+    if ( $post instanceof WP_Post && $post->post_type == 'post' ) {
+        // Open comments
+        wp_update_post( array(
+            'ID' => $post->ID,
+            'comment_status' => 'open',
+            'ping_status' => 'open'
+        ) );
+    }
+}
+add_action( 'the_post', 'gp_enable_comments' );
+
+// Modify the comment form fields
+function gp_modify_comment_form_fields( $fields ) {
+    $commenter = wp_get_current_commenter();
+    $req = get_option( 'require_name_email' );
+
+    // Unset the email field
+    unset( $fields['email'] );
+
+    // Modify the URL field
+    $fields['url'] = '<p class="comment-form-url">' .
+        '<label for="url">' . __( 'Website or Email', 'gp_child_theme' ) . '</label>' .
+        '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
+        '" size="30" /></p>';
+
+    // Add a name field
+    $fields['author'] = '<p class="comment-form-author">' .
+        '<label for="author">' . __( 'Name', 'gp_child_theme' ) . '</label> ' .
+        ( $req ? '<span class="required">*</span>' : '' ) .
+        '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) .
+        '" size="30" /></p>';
+
+    return $fields;
+}
+add_filter( 'comment_form_default_fields', 'gp_modify_comment_form_fields' );
