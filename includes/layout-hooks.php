@@ -136,7 +136,8 @@ function gp_add_share_button_and_language_switcher() {
             echo '<span class="dropdown-icon"></span>';
             echo '</button>';
             echo '<ul id="gp-lang-switcher-list" class="language-list" hidden>';
-            pll_the_languages( array( 'show_flags' => 0, 'show_names' => 1, 'hide_if_no_translation' => 1, 'echo' => 1, 'display_names_as' => 'name', 'walker' => new Polylang_Walker_List() ) );
+            // Temporarily remove the walker to fix the layout
+            pll_the_languages( array( 'show_flags' => 0, 'show_names' => 1, 'hide_if_no_translation' => 1, 'echo' => 1, 'display_names_as' => 'name' ) );
             echo '</ul>';
             echo '</div>';
         }
