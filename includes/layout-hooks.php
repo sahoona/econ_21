@@ -63,27 +63,41 @@ function gp_child_inject_single_post_layout_css() {
     if ( is_singular() ) {
         $css = '
             <style>
-                /* Constrain the main content column */
+                /* Constrain the main header and content column */
+                body.single .site-header .inside-header,
                 body.single .site-main {
                     max-width: var(--container-max-width, 840px) !important;
                     margin-left: auto !important;
                     margin-right: auto !important;
                 }
+
+                /* Add top margin to breadcrumbs */
+                body.single .entry-header .gp-post-category {
+                    margin-top: 20px !important;
+                }
+
                 /* Apply padding to direct children of the main content area */
-                body.single-post .site-main .inside-article > * {
+                body.single .site-main .inside-article > * {
                     padding-left: var(--mobile-padding, 24px) !important;
                     padding-right: var(--mobile-padding, 24px) !important;
                     box-sizing: border-box !important;
                 }
+
                 /* Handle full-width featured image separately */
-                body.single-post .site-main .featured-image {
+                body.single .site-main .featured-image {
                      padding-left: var(--mobile-padding, 24px) !important;
                      padding-right: var(--mobile-padding, 24px) !important;
                      box-sizing: border-box !important;
                 }
-                 /* Remove padding from the parent to avoid double-padding */
-                body.single-post .site-main > .inside-article {
+
+                /* Remove padding from the parent to avoid double-padding */
+                body.single .site-main > .inside-article {
                     padding: 0 !important;
+                }
+
+                /* Remove gray background from images */
+                body.single .wp-block-image {
+                    background-color: transparent !important;
                 }
             </style>
         ';
