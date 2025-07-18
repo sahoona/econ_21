@@ -67,6 +67,13 @@
 .comment-author-info {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.comment-author .fn a {
+    color: #000;
+    text-decoration: none;
 }
 
 .comment-meta a {

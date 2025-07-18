@@ -161,8 +161,19 @@ function gp_comment_form_defaults( $defaults ) {
     $defaults['comment_notes_before'] = '<p class="comment-notes">' .
         'Your email address will not be published.' .
         '</p>';
+    $defaults['comment_notes_after'] = '<p class="form-allowed-tags">' .
+        sprintf(
+            'You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: %s',
+            ' <code>' . allowed_tags() . '</code>'
+        ) . '</p>';
     $defaults['label_submit'] = 'Post Comment';
     $defaults['comment_field'] = '<p class="comment-form-comment"><label for="comment">' . 'Comment' . '</label><textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required="required"></textarea></p>';
+    $defaults['fields']['cookies'] = '<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"' . ( isset($_COOKIE['comment_author_'.COOKIEHASH]) ? ' checked="checked"' : '' ) . ' /> <label for="wp-comment-cookies-consent">' . 'Save my name, email, and website in this browser for the next time I comment.' . '</label></p>';
+    $defaults['title_reply'] = 'Leave a Reply';
+    $defaults['title_reply_to'] = 'Leave a Reply to %s';
+    $defaults['cancel_reply_link'] = 'Cancel Reply';
+    $defaults['comment_moderation'] = 'Your comment is awaiting moderation.';
+
     return $defaults;
 }
 
