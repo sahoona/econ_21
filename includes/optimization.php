@@ -20,6 +20,11 @@ function gp_optimize_wordpress() {
     remove_action('wp_print_styles', 'print_emoji_styles');
     remove_action('admin_print_styles', 'print_emoji_styles');
     remove_action('wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0);
+
+    // Remove oEmbed discovery links
+    remove_action('wp_head', 'wp_oembed_add_discovery_links');
+    // Remove oEmbed-specific JavaScript from the front-end and back-end
+    remove_action('wp_head', 'wp_oembed_add_host_js');
 }
 add_action('init', 'gp_optimize_wordpress');
 
