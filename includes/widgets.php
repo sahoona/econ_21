@@ -12,9 +12,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Register "After Entry Content" widget area
 function gp_child_register_widget_areas() {
     register_sidebar( array(
-        'name'          => '본문 끝 위젯 영역',
+        'name'          => __( 'After Entry Content', 'gp-child-theme' ),
         'id'            => 'after_entry_content_widget_area',
-        'description'   => '글 본문 내용이 끝나는 지점, 태그 박스 위에 표시됩니다.',
+        'description'   => __( 'Appears at the end of single posts, before the tags.', 'gp-child-theme' ),
         'before_widget' => '<div id="%1$s" class="widget %2$s">',
         'after_widget'  => '</div>',
         'before_title'  => '<h2 class="widget-title">',

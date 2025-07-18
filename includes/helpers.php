@@ -135,20 +135,6 @@ function gp_custom_hide_entry_footer_archives( $show ) {
 }
 add_filter( 'generate_show_entry_footer', 'gp_custom_hide_entry_footer_archives' );
 
-function aivew_translate_comment_text( $translated_text, $text, $domain ) {
-    if ( 'default' === $domain ) {
-        switch ( $text ) {
-            case '응답':
-                $translated_text = 'Reply';
-                break;
-            case '댓글 달기':
-                $translated_text = 'Post Comment';
-                break;
-        }
-    }
-    return $translated_text;
-}
-add_filter( 'gettext', 'aivew_translate_comment_text', 20, 3 );
 
 function gp_add_image_dimensions_to_content($content) {
     if (is_admin() || is_feed() || empty(trim($content))) {

@@ -39,3 +39,19 @@ if (document.getElementById('gp-toc-container')) {
 window.onload = function() {
     initAllAds();
 };
+
+document.addEventListener('DOMContentLoaded', function() {
+    const emailPrivacyCheckbox = document.getElementById('wp-comment-email-privacy');
+    const emailField = document.getElementById('email');
+
+    if (emailPrivacyCheckbox && emailField) {
+        emailPrivacyCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                emailField.disabled = true;
+                emailField.value = '';
+            } else {
+                emailField.disabled = false;
+            }
+        });
+    }
+});
