@@ -97,9 +97,14 @@ function gp_modify_comment_form_fields( $fields ) {
     $commenter = wp_get_current_commenter();
     $req = get_option( 'require_name_email' );
 
-    // Unset the email and url fields
+    // Unset the email field
     unset( $fields['email'] );
-    unset( $fields['url'] );
+
+    // Modify the URL field
+    $fields['url'] = '<p class="comment-form-url">' .
+        '<label for="url">' . __( 'Website or Email', 'gp_child_theme' ) . '</label>' .
+        '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) .
+        '" size="30" /></p>';
 
     // Add a name field
     $fields['author'] = '<p class="comment-form-author">' .
